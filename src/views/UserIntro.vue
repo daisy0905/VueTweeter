@@ -4,7 +4,7 @@
             <img @click="backToProfile" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSvz8HF_jjIpaNgkrFzcw9E2N9Y6SA13DfCcQ&usqp=CAU" alt="icon of back to home page">
             <h3>Edit Profile</h3>
             <button @click="updateProfile">Save</button>
-            <spacer></spacer>
+
         </div>
         <div id="header-container2">
             <img src="" alt="cover image">
@@ -14,15 +14,13 @@
         </div>
         <div id="user-profile">
             <p>Email</p>
-            <input type="text" id="email-input" v-model="email">
-            <p>Password</p>
-            <input type="text" id="password-input" v-model="password">
+            <input :placeholder="email" type="text" id="email-input" v-model="emailInput">
             <p>Username</p>
-            <input type="text" id="username-input" v-model="username">
+            <input :placeholder="username" type="text" id="username-input" v-model="usernameInput">
             <p>Bio</p>
-            <input type="text" id="bio-input" v-model="bio">
+            <input :placeholder="bio" type="text" id="bio-input" v-model="bioInput">
             <p>Birthdate</p>
-            <input type="text" id="birthdate-input" v-model="birthdate">
+            <input :placeholder="birthdate" type="text" id="birthdate-input" v-model="birthdateInput">
         </div>
         <h3>{{ loginStatus }}</h3>
     </div>
@@ -35,16 +33,31 @@ import cookies from 'vue-cookies'
     export default {
         data() {
             return {
-                email: cookies.get("userEmail"),
-                password: cookies.get("userPassword"),
-                username: cookies.get("userName"),
-                bio: cookies.get("userBio"),
-                birthdate: cookies.get("userBirthdate"),
+                emailInput: this.email,
+                usernameInput: this.username,
+                bioInput: this.bio,
+                birthdateInput: this.birthdate,
                 token: cookies.get("loginToken"),
                 loginStatus: "",
                 UserPhoto: cookies.get("userPicture")
             }
         },
+
+        computed: {
+            email: function() {
+                return this.$store.state.user.email
+            },
+            username: function() {
+                return this.$store.state.user.username
+            },
+            bio: function() {
+                return this.$store.state.user.bio
+            },
+            birthdate: function() {
+                return this.$store.state.user.birthdate
+            }
+        },
+
         methods: {
             updateProfile: function() {
                 profileApi.request({
@@ -55,9 +68,10 @@ import cookies from 'vue-cookies'
                         "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
                     },
                     data: {
-                        username: this.username,
-                        bio: this.bio,
-                        birthdate: this.birthdate,
+                        email: this.emailInput,
+                        username: this.usernameInput,
+                        bio: this.bioInput,
+                        birthdate: this.birthdateInput,
                         loginToken: this.token
                     }
                 }).then((response) => {

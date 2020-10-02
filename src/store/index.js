@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
-// import tweetsApi from 'axios'
-// import cookies from 'vue-cookies'
+import getProfileApi from 'axios'
+import cookies from 'vue-cookies'
 
 Vue.use(Vuex);
 
@@ -49,19 +49,49 @@ export default new Vuex.Store({
         url: "https://i.pinimg.com/originals/9d/36/2e/9d362e894eefc975591567762f03e832.jpg"
       },
     ],
-    tweets: []
+    tweets: [],
+    id: cookies.get("userId"),
+    token: cookies.get("loginToken"),
+    status: "",
+    user: []
+
   },
   mutations: {
+    viewProfile: function(state, data) {
+      state.user = data;
+      state.status = "Success";
+    }
     // updateTweets: function(state, data) {
     //   state.tweets = data;
     // }
   },
   actions: {
+    getProfile: function(state) {
+      console.log(cookies.get("userId"));
+      getProfileApi.request({
+        url: "https://tweeterest.ml/api/users",
+        method: "GET",
+        headers: {
+            "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
+        },
+        params: {
+            userId: cookies.get("userId"),
+            loginToken: state.token
+        }
+    }).then((response) => {
+        this.commit("viewProfile", response.data[0])
+    }).catch((error) => {
+        console.log(error);
+        state.status = "Error";
+    })
+    }
+
     // getTweets: function(context) {
     //   tweetsApi.request({
-    //     // let  = "https://tweeterest.ml/api/tweets",
-    //     // let  = "&X-Api-Key=NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G",
-    //     // url = api + apiKey,
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
+    //      },
     //     method: "GET",
     //   }).then((response) => {
     //     context.commit("updateTweets", response.data)

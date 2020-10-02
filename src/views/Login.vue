@@ -1,11 +1,18 @@
 <template>
-    <div>
-        <p>Email</p>
-        <input type="text" id="email-input" v-model="email">
-        <p>Password</p>
-        <input type="text" id="password-input" v-model="password">
-        <h2 @click="loginUser">Login</h2>
-        <h3>{{ loginStatus }}</h3>
+    <div id="login">
+        <div id="header">
+            <img src="https://mobiledevmemo.com/wp-content/uploads/2014/05/Twitter-Bird.png" alt="twitter logo">
+            <h1>Log in to Tweeter</h1>
+        </div>
+        <div id="login-area">
+            <h3>Email</h3>
+            <input type="text" id="email-input" class="input" v-model="email">
+            <h3>Password</h3>
+            <input type="text" id="password-input" class="input" v-model="password">
+            <button class="btn" @click="loginUser">Log in</button>
+            <h3>{{ loginStatus }}</h3>
+            <h4 @click="signUp">Sign up for Tweeter</h4>
+        </div>
     </div>
 </template>
 
@@ -43,11 +50,11 @@ import cookies from 'vue-cookies'
                         this.loginStatus = "Success";
                         cookies.set("loginToken", response.data.loginToken);
                         cookies.set("userId", response.data.userId);
-                        cookies.set("userEmail", response.data.email);
+                        // cookies.set("userEmail", response.data.email);
                         cookies.set("userName", response.data.username);
-                        cookies.set("userBio", response.data.bio);
-                        cookies.set("userBirthdate", response.data.birthdate);
-                        cookies.set("userPassword", this.password)
+                        // cookies.set("userBio", response.data.bio);
+                        // cookies.set("userBirthdate", response.data.birthdate);
+                        // cookies.set("userPassword", this.password)
                         //send user to "home page"
                         this.$router.push("Home");
                     }
@@ -57,11 +64,91 @@ import cookies from 'vue-cookies'
                     this.loginStatus = "Error";
 
                 }) 
+            },
+            signUp: function() {
+                this.$router.push("SignUp");
             }
         }
     }
 </script>
 
 <style lang="scss" scoped>
+* {
+    scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#login {
+    min-height: 60vh;
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    align-items: center; 
+}
+
+#header {
+    min-height: 15vh;
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    margin: 2em 0 2em 0;
+
+    img {
+        display: block;
+        width: 15vw;
+        margin-bottom: 2em;
+    }
+
+    h1 {
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+}
+
+#login-area {
+    min-height: 40vh;
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+
+    h3 {
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        font-size: 1rem;
+    }
+
+    .input {
+        width: 80%;
+        height: 8vh;
+        background-color: #E1E8ED;
+        border: 1px solid #AAB8C2;
+        margin: 0 0 1em 0;
+        border-bottom: 1px solid #1DA1F2;
+    }
+
+    .btn {
+        width: 80%;
+        height: 7vh;
+        background-color: #1DA1F2;
+        border-radius: 1.5em; 
+        border: none;
+        font-size: 1rem;
+        font-family: Arial, Helvetica, sans-serif;
+        color: white;
+        font-weight: bold;
+    }
+
+    h4 {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 0.8rem;
+        color: #1DA1F2;
+    }
+    
+}
 
 </style>
