@@ -1,26 +1,26 @@
 <template>
-    <div>
-        <div id="header-container1">
+    <div id="userIntro">
+        <div id="container-1">
             <img @click="backToProfile" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSvz8HF_jjIpaNgkrFzcw9E2N9Y6SA13DfCcQ&usqp=CAU" alt="icon of back to home page">
             <h3>Edit Profile</h3>
+            <div></div>
             <button @click="updateProfile">Save</button>
-
         </div>
-        <div id="header-container2">
-            <img src="" alt="cover image">
+        <div id="container-2">
+            <img src="../assets/background-landing.png" alt="cover image">
         </div>
-        <div id="user-image">
+        <div id="container-3">
             <img :src="UserPhoto" alt="user image">       
         </div>
         <div id="user-profile">
-            <p>Email</p>
-            <input :placeholder="email" type="text" id="email-input" v-model="emailInput">
-            <p>Username</p>
-            <input :placeholder="username" type="text" id="username-input" v-model="usernameInput">
-            <p>Bio</p>
-            <input :placeholder="bio" type="text" id="bio-input" v-model="bioInput">
-            <p>Birthdate</p>
-            <input :placeholder="birthdate" type="text" id="birthdate-input" v-model="birthdateInput">
+            <h3>Email</h3>
+            <input :placeholder="email" type="text" id="email-input" class="input" v-model="emailInput">
+            <h3>Username</h3>
+            <input :placeholder="username" type="text" id="username-input" class="input" v-model="usernameInput">
+            <h3>Bio</h3>
+            <input :placeholder="bio" type="text" id="bio-input" class="input" v-model="bioInput">
+            <h3>Birthdate</h3>
+            <input :placeholder="birthdate" type="text" id="birthdate-input" class="input" v-model="birthdateInput">
         </div>
         <h3>{{ loginStatus }}</h3>
     </div>
@@ -84,11 +84,119 @@ import cookies from 'vue-cookies'
             },
             backToProfile: function() {
                 this.$router.push("Profile");
+                this.$store.dispatch("getProfile");
             }
         },
     }
 </script>
 
 <style lang="scss" scoped>
+* {
+    scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#userIntro {
+    min-height: 100vh;
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    align-items: center; 
+}
+
+#container-1 {
+    min-height: 5vh;
+    width: 100%;
+    display: grid;
+    justify-items: left;
+    align-items: center;
+    grid-template-columns: 10% 30% 40% 20%;
+
+    img {
+        width: 5vw;
+    }
+
+    h3 {
+        font-weight: bold; 
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1rem;
+        text-align: left;
+    }
+
+    button {
+        width: 20vw;
+        height: 5vh;
+        background-color: #1DA1F2;
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 0.8rem;
+        border: none;
+        border-radius: 1.5em;
+        font-weight: bold;
+        margin-right: 3em;
+    }
+}
+
+#container-2 {
+    min-height: 20vh;
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+
+    img {
+        width: 100%;
+        height: 20vh;
+        object-fit: cover;
+    }
+}
+
+#container-3 {
+    min-height: 10vh;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    position: relative;
+
+    img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 50%;
+        display: grid;
+        justify-items: left;
+        align-items: center;
+        margin-left: 1em;
+        position: absolute;
+        top: -5vh;
+        border: 2px solid white;
+    }
+}
+
+#user-profile {
+    min-height: 60vh;
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+
+    h3 {
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        font-size: 1rem;
+    }
+
+    .input {
+        width: 80%;
+        height: 7vh;
+        background-color: #E1E8ED;
+        border: 1px solid #AAB8C2;
+        margin: 0 0 1em 0;
+        border-bottom: 1px solid #1DA1F2;
+        text-align: center;
+    }
+}
 
 </style>

@@ -51,10 +51,10 @@ import cookies from 'vue-cookies'
                         cookies.set("loginToken", response.data.loginToken);
                         cookies.set("userId", response.data.userId);
                         // cookies.set("userEmail", response.data.email);
-                        cookies.set("userName", response.data.username);
+                        // cookies.set("userName", response.data.username);
                         // cookies.set("userBio", response.data.bio);
                         // cookies.set("userBirthdate", response.data.birthdate);
-                        // cookies.set("userPassword", this.password)
+                        cookies.set("userPassword", this.password)
                         //send user to "home page"
                         this.$router.push("Home");
                     }
@@ -129,6 +129,7 @@ import cookies from 'vue-cookies'
         border: 1px solid #AAB8C2;
         margin: 0 0 1em 0;
         border-bottom: 1px solid #1DA1F2;
+        text-align: center;
     }
 
     .btn {

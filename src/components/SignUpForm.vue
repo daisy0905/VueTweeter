@@ -9,7 +9,7 @@
         <h3>Bio</h3>
         <textarea id="bio-input" class="input" v-model="bio"></textarea>
         <h3>Birthdate</h3>
-        <input type="text" id="birthdate-input" class="input" v-model="birthdate">
+        <input :placeholder="brithdate" type="text" id="birthdate-input" class="input" v-model="birthdate">
         <button class="btn" @click="signupUser">Sign Up</button>
     </div>
 </template>
@@ -26,7 +26,7 @@ import cookies from 'vue-cookies'
                username: "",
                password: "",
                bio: "",
-               birthdate: ""
+               birthdate: "YYYY-MM-DD"
            }
        },
        methods: {
@@ -87,6 +87,7 @@ import cookies from 'vue-cookies'
         border: 1px solid #AAB8C2;
         margin: 0 0 1em 0;
         border-bottom: 1px solid #1DA1F2;
+        text-align: center;
     }
 
     .btn {

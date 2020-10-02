@@ -1,12 +1,21 @@
 <template>
     <div id="home">
-        <div id="user-header">
-            <img id="user-image" @click="userProfile" :src="UserImage" alt="user image">
-            <h3>Home</h3>
-            <div></div>
+        <div v-if="login" class="login">
+            <div id="user-header">
+                <img id="user-image" @click="userProfile" :src="UserImage" alt="user image">
+                <h3>Home</h3>
+                <div></div>
+                <button @click="userLogout" id="logout">Log Out</button>
+            </div>
+            <all-tweets id="tweets"></all-tweets>
+            <div id="delete-account">
+                <button @click="deleteProfile" id="delete-btn">Delete Account</button>
+            </div>
         </div>
-        
-        <all-tweets id="tweets"></all-tweets>
+        <div v-else class="notlogin">
+            <h3>You have not logined in!</h3>
+            <router-link to="Login">Login Page</router-link>
+        </div>
     </div>
 </template>
 
@@ -14,10 +23,19 @@
 
 import AllTweets from '../components/AllTweets.vue'
 import cookies from 'vue-cookies'
+import deleteApi from 'axios'
 
     export default {
         components: {
             AllTweets
+        },
+        data() {
+            return {
+                login: true,
+                token: cookies.get("loginToken"),
+                password: cookies.get("userPassword"),
+                status: ""
+            }
         },
         
         computed: {
@@ -28,8 +46,46 @@ import cookies from 'vue-cookies'
         methods: {
             userProfile: function() {
                 this.$router.push("Profile"),
-                cookies.set("userPicture", this.$store.getters.userUrl)
-            }
+                cookies.set("userPicture", this.$store.getters.userUrl),
+                this.$store.dispatch("getProfile")
+            },
+            checkLogin: function() {
+                if(this.token != undefined) {
+                    this.login = true
+                }
+            },
+            mounted: function() {
+                this.checkLogin
+            },
+            userLogout: function() {
+                cookies.remove("loginToken");
+                cookies.remove("userId");
+                this.$router.push("Login");
+            },
+            deleteProfile: function() {
+                this.Status = "Loading"
+                deleteApi.request({
+                   url: "https://tweeterest.ml/api/users",
+                   method: "DELETE",
+                   headers: {
+                    // "Content-Type": "application/json",
+                    "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
+                   },
+                   data: {
+                       loginToken: this.token,
+                       password: this.password
+                   }
+                }).then((response) => {
+                    console.log(response);
+                    this.status = "Success";
+                    this.$router.push("/");
+                }).catch((error) => {
+                    //show user login failure
+                    console.log(error);
+                    this.status = "Error";
+
+                }) 
+            },
         },
         // mounted: function() {
         //     this.$store.dispatch("getTweets")
@@ -54,9 +110,9 @@ import cookies from 'vue-cookies'
     
     #user-header {
         height: 10vh;
-        width: 90%;
+        width: 100%;
         display: grid;
-        grid-template-columns: 20% 20% 60%;
+        grid-template-columns: 20% 20% 40% 20%;
         justify-items: center;
         align-items: center;
         border-bottom: 2px solid #1DA1F2;
@@ -74,6 +130,19 @@ import cookies from 'vue-cookies'
             font-weight: bold;
             font-size: 1rem;
         }
+
+        button {
+            width: 20vw;
+            height: 5vh;
+            background-color: #1DA1F2;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 0.8rem;
+            border: none;
+            border-radius: 1.5em;
+            font-weight: bold;
+            margin-right: 2em;
+        }
     }
 
     #tweets {
@@ -83,6 +152,23 @@ import cookies from 'vue-cookies'
         align-items: center; 
     }
 
+    #delete-account {
+        display: grid;
+        justify-items: center;
+        align-items: center; 
+    }
+
+    #delete-btn {
+        width: 30vw;
+        height: 5vh;
+        color: #1DA1F2;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 0.8rem;
+        border: 1px solid #1DA1F2;
+        border-radius: 1.5em;
+        font-weight: bold;
+        margin-right: 2em;
+    }
 
 }
 

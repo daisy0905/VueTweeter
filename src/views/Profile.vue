@@ -18,6 +18,10 @@
                     <button @click="viewProfile">Edit Profile</button>
                 </div>
             </div>
+            <div id="container-4">
+                <h4>{{ bio }}</h4>
+                <h5>Birthdate: {{ birthdate }}</h5>
+            </div>
         </div>
         <div id="tweets">
 
@@ -33,16 +37,26 @@ import cookies from 'vue-cookies'
         data() {
             return {
                 UserPhoto: cookies.get("userPicture"),
-                name: cookies.get("userName")
             }
         },
         methods: {
             viewProfile: function() {
-                this.$store.dispatch("getProfile"),
-                this.$router.push("UserIntro")
+                this.$store.dispatch("getProfile");
+                this.$router.push("UserIntro");
             },
             backToHome: function() {
-                this.$router.push("Home")
+                this.$router.push("Home");
+            }
+        },
+        computed: {
+            name: function() {
+                return this.$store.state.user.username
+            },
+            bio: function() {
+                return this.$store.state.user.bio
+            },
+            birthdate: function() {
+                return this.$store.state.user.birthdate
             }
         }
     }
@@ -78,16 +92,15 @@ import cookies from 'vue-cookies'
     display: grid;
     justify-items: left;
     align-items: center;
-    grid-template-columns: 15% 15% 70%;
+    grid-template-columns: 10% 15% 75%;
 
     img {
-        width: 10vw;
+        width: 5vw;
     }
 
     h3 {
         font-weight: bold; 
         font-family: Arial, Helvetica, sans-serif;
-        font-weight: bold;
         font-size: 1rem;
     }
 }
@@ -140,7 +153,7 @@ import cookies from 'vue-cookies'
             font-size: 1rem;
             position: absolute;
             top: 10vh;
-            left: 10vw;
+            left: 12vw;
         }
     }
 
@@ -161,6 +174,28 @@ import cookies from 'vue-cookies'
             border-radius: 1.5em;
             font-weight: bold;
         }
+    }
+}
+
+#container-4 {
+    height: 5vh;
+    width: 100%;
+    display: grid;
+    justify-items: left;
+    align-items: center;
+    margin-top: 4vh;
+
+    h4 {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 0.8rem; 
+        margin-bottom: 1em;
+    }
+
+    h5 {
+       
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 0.7rem; 
+        color: grey;
     }
 }
 
