@@ -6,6 +6,7 @@ import LoginPage from "../views/Login.vue"
 import HomePage from "../views/Home.vue"
 import ProfilePage from "../views/Profile.vue"
 import UserIntroPage from "../views/UserIntro.vue"
+import TweetPage from "../views/Tweet.vue"
 
 
 Vue.use(VueRouter);
@@ -40,6 +41,11 @@ const routes = [
     path: "/userintro",
     name: "userintro-page",
     component: UserIntroPage
+  },
+  {
+    path: "/tweet",
+    name: "tweet-page",
+    component: TweetPage
   }
 
 ];

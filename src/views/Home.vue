@@ -7,9 +7,11 @@
                 <div></div>
                 <button @click="userLogout" id="logout">Log Out</button>
             </div>
-            <all-tweets id="tweets"></all-tweets>
             <div id="delete-account">
                 <button @click="deleteProfile" id="delete-btn">Delete Account</button>
+            </div>
+            <div id="tweet-icon">
+                <img @click="createTweet" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQAXoPQzntYQAVY308mROLyPuRp1smbeMQ30g&usqp=CAU" alt="icon of write tweet">
             </div>
         </div>
         <div v-else class="notlogin">
@@ -21,13 +23,11 @@
 
 <script>
 
-import AllTweets from '../components/AllTweets.vue'
 import cookies from 'vue-cookies'
 import deleteApi from 'axios'
 
     export default {
         components: {
-            AllTweets
         },
         data() {
             return {
@@ -86,6 +86,9 @@ import deleteApi from 'axios'
 
                 }) 
             },
+            createTweet: function() {
+                this.$router.push("Tweet");
+            }
         },
         // mounted: function() {
         //     this.$store.dispatch("getTweets")
@@ -106,7 +109,16 @@ import deleteApi from 'axios'
     width: 100%;
     display: grid;
     justify-items: center;
-    align-items: center; 
+    align-items: center;
+}
+
+.login {
+    min-height: 100vh;
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+
     
     #user-header {
         height: 10vh;
@@ -168,6 +180,22 @@ import deleteApi from 'axios'
         border-radius: 1.5em;
         font-weight: bold;
         margin-right: 2em;
+    }
+
+    #tweet-icon {
+        height: 10vh;
+        width: 100%;
+        display: grid;
+        align-items: center;
+        justify-items: center;
+
+        img {
+            position: fixed;
+            top: 20vh;
+            right: 2vw;
+            width: 15%;
+            z-index: 10;
+        }
     }
 
 }

@@ -22,18 +22,20 @@
                 <h4>{{ bio }}</h4>
                 <h5>Birthdate: {{ birthdate }}</h5>
             </div>
+            <h3 @click="viewTweets">Tweets</h3>
         </div>
-        <div id="tweets">
-
-        </div>
-
+        <user-tweets id="tweets"></user-tweets>
     </div>
 </template>
 
 <script>
 import cookies from 'vue-cookies'
+import UserTweets from '../components/UserTweets'
 
     export default {
+        components: {
+            UserTweets
+        },
         data() {
             return {
                 UserPhoto: cookies.get("userPicture"),
@@ -46,6 +48,9 @@ import cookies from 'vue-cookies'
             },
             backToHome: function() {
                 this.$router.push("Home");
+            },
+            viewTweets: function() {
+                this.$store.dispatch("getTweets")
             }
         },
         computed: {
