@@ -51,6 +51,7 @@ export default new Vuex.Store({
       },
     ],
     tweets: [],
+    tweetList: [],
     id: cookies.get("UserId"),
     token: cookies.get("loginToken"),
     status: "",
@@ -64,7 +65,14 @@ export default new Vuex.Store({
     },
     updateTweets: function(state, data) {
       state.tweets = data;
-    }
+    },
+    updateAllTweets: function(state, data) {
+      state.tweetList = data;
+    },
+
+    // modifyTweet: function(state, tweetId, content) {
+    //   state.tweets.
+    // }
   },
   actions: {
     getProfile: function(state) {
@@ -95,10 +103,26 @@ export default new Vuex.Store({
           "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
          },
          params: {
-            userId: cookies.get("idUser"),
+            userId: cookies.get("userId"),
       }
       }).then((response) => {
-        context.commit("updateTweets", response.data)
+        context.commit("updateTweets", response.data),
+        cookies.set("userTweetId", response.data.tweetId),
+        console.log(response.data)
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    getAllTweets: function(context) {
+      tweetsApi.request({
+        url: "https://tweeterest.ml/api/tweets",
+        method: "GET",
+        headers: {
+          "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
+         }
+      }).then((response) => {
+        context.commit("updateAllTweets", response.data),
+        cookies.set("userTweetId", response.data.tweetId),
         console.log(response.data)
       }).catch((error) => {
         console.log(error)

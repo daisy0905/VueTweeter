@@ -54,8 +54,9 @@ import cookies from 'vue-cookies'
                         // cookies.set("userName", response.data.username);
                         // cookies.set("userBio", response.data.bio);
                         // cookies.set("userBirthdate", response.data.birthdate);
-                        cookies.set("userPassword", this.password)
+                        cookies.set("userPassword", this.password);
                         //send user to "home page"
+                        this.$store.dispatch("getAllTweets");
                         this.$router.push("Home");
                     }
                 }).catch((error) => {

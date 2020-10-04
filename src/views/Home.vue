@@ -7,6 +7,7 @@
                 <div></div>
                 <button @click="userLogout" id="logout">Log Out</button>
             </div>
+            <all-tweets id="tweets"></all-tweets>
             <div id="delete-account">
                 <button @click="deleteProfile" id="delete-btn">Delete Account</button>
             </div>
@@ -25,9 +26,11 @@
 
 import cookies from 'vue-cookies'
 import deleteApi from 'axios'
+import AllTweets from '../components/AllTweets'
 
     export default {
         components: {
+            AllTweets
         },
         data() {
             return {
@@ -45,6 +48,7 @@ import deleteApi from 'axios'
         },
         methods: {
             userProfile: function() {
+               this.$store.dispatch("getTweets"),
                 this.$router.push("Profile"),
                 cookies.set("userPicture", this.$store.getters.userUrl),
                 this.$store.dispatch("getProfile")
@@ -55,7 +59,7 @@ import deleteApi from 'axios'
                 }
             },
             mounted: function() {
-                this.checkLogin
+                this.checkLogin;
             },
             userLogout: function() {
                 cookies.remove("loginToken");
@@ -88,11 +92,9 @@ import deleteApi from 'axios'
             },
             createTweet: function() {
                 this.$router.push("Tweet");
+                cookies.set("userPicture", this.$store.getters.userUrl);
             }
-        },
-        // mounted: function() {
-        //     this.$store.dispatch("getTweets")
-        // }
+        }
     }
 </script>
 

@@ -9,6 +9,7 @@
         <div id="container-2">
             <img :src="UserPhoto" id="userPhoto" alt="user image"> 
             <textarea id="tweet-text" v-model="content"></textarea>
+            <button @click="updateTweet">Update Tweet</button>
         </div>
         <div id="space"></div>
     </div>
@@ -17,6 +18,7 @@
 <script>
 import cookies from 'vue-cookies'
 import tweetApi from 'axios'
+import updateTweetApi from 'axios'
 
     export default {
         data() {
@@ -51,7 +53,30 @@ import tweetApi from 'axios'
                }).catch((error) => {
                    console.log(error)
                })
-           }
+           },
+           updateTweet: function() {
+                updateTweetApi.request({
+                    url: "https://tweeterest.ml/api/tweets",
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
+                    },
+                    data: {
+                        loginToken: this.token,
+                        tweetId: cookies.get("userTweetId"),
+                        content: this.content
+                    }
+                }).then((response) => {
+                    console.log(response);
+                    this.loginStatus = "Success";
+                    this.$store.commit("modifyTweet", cookies.get("userTweetId"), this.content),
+                    this.$router.push("Profile")
+                }).catch((error) => {
+                    console.log(error);
+                    this.loginStatus = "Error";
+                })
+            },
         }
     }
 </script>

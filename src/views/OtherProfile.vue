@@ -2,7 +2,7 @@
     <div id="profile">
         <div id="header">
             <div id="container-1">
-                <img @click="backToHome" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSvz8HF_jjIpaNgkrFzcw9E2N9Y6SA13DfCcQ&usqp=CAU" alt="icon of back to home page">
+                <img @click="goToHome" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSvz8HF_jjIpaNgkrFzcw9E2N9Y6SA13DfCcQ&usqp=CAU" alt="icon of back to home page">
                 <h3>{{ name }}</h3>
                 <div></div>
             </div>
@@ -11,62 +11,101 @@
             </div>
             <div id="container-3">
                 <div id="user-image">
-                    <img :src="UserPhoto" alt="user image">
+                    <img @click="getOtherUserProfile" :src="UserPhoto" alt="user image">
                     <h3>{{name}}</h3>
-                </div>
-                <div id="profile-btn">
-                    <button @click="viewProfile">Edit Profile</button>
                 </div>
             </div>
             <div id="container-4">
                 <h4>{{ bio }}</h4>
                 <h5>Birthdate: {{ birthdate }}</h5>
             </div>
-            <div id="container-5">
-                <button class="tweet-btn" @click="viewTweets">Tweets</button>
-                <button class="tweet-btn">Tweets&Replies</button>
-            </div>
         </div>
-        <user-tweets id="tweets"></user-tweets>
+        <other-tweets id="tweets" class="tweet" v-for="tweet in othertweets" :key="tweet.tweetId" :tweet="tweet"></other-tweets>
     </div>
 </template>
 
 <script>
 import cookies from 'vue-cookies'
-import UserTweets from '../components/UserTweets'
+import OtherTweets from '../components/OtherUserTweets.vue'
+import OtherUserTweetApi from 'axios'
+import OtherUserApi from 'axios'
 
     export default {
         components: {
-            UserTweets
+            OtherTweets
+        },
+        props: {
+            tweet: {
+                type: Object,
+                required: true
+            }
         },
         data() {
             return {
                 UserPhoto: cookies.get("userPicture"),
+                status: "",
+                name: "",
+                bio: "",
+                birthdate: "",
+                othertweets: []
             }
         },
         methods: {
-            viewProfile: function() {
-                this.$store.dispatch("getProfile");
-                this.$router.push("UserIntro");
+            getOtherUserProfile: function() {
+                this.Status = "Loading"
+                OtherUserTweetApi.request({
+                url: "https://tweeterest.ml/api/users",
+                   method: "GET",
+                   headers: {
+                    "Content-Type": "application/json",
+                    "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
+                   },
+                   params: {
+                       userId: cookies.get("otherUserId")
+                   }
+                }).then((response) => {
+                    console.log(response);
+                    this.status = "Success";
+                    this.name = response.data[0].username;
+                    this.bio = response.data[0].bio;
+                    this.birthdate = response.data[0].birthdate;
+                    // console.log(this.name);
+                }).catch((error) => {
+                    console.log(error);
+                    this.status = "Error";
+                })
             },
-            backToHome: function() {
-                this.$router.push("Home");
+            getOtherUserTweets: function() {
+                this.Status = "Loading"
+                OtherUserApi.request({
+                url: "https://tweeterest.ml/api/tweets",
+                   method: "GET",
+                   headers: {
+                    "Content-Type": "application/json",
+                    "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
+                   },
+                   params: {
+                       userId: cookies.get("otherUserId")
+                   }
+                }).then((response) => {
+                    console.log(response);
+                    this.status = "Success";
+                    this.othertweets = response.data;
+                    console.log(this.othertweets);
+                }).catch((error) => {
+                    console.log(error);
+                    this.status = "Error";
+                }) 
             },
-            viewTweets: function() {
-                this.$store.dispatch("getTweets")
+
+            goToHome: function() {
+                this.$router.push("Home")
             }
         },
-        computed: {
-            name: function() {
-                return this.$store.state.user.username
-            },
-            bio: function() {
-                return this.$store.state.user.bio
-            },
-            birthdate: function() {
-                return this.$store.state.user.birthdate
-            }
-        }
+        mounted () {
+            this.getOtherUserProfile();
+            this. getOtherUserTweets();
+        },
     }
 </script>
 
@@ -230,8 +269,8 @@ import UserTweets from '../components/UserTweets'
 }
 
 #tweets {
-    min-height: 50vh;
+    margin-top:4vh;
+    min-height: 10vh;
+    width: 90%;
 }
-
-
 </style>

@@ -1,24 +1,26 @@
 <template>
     <div>
-        <div v-for="tweet in tweets" :key="tweet.id">
-            <h2>{{ tweet.username }}</h2>
-            <h4>{{ tweet.createdAt}}</h4>
-            <h3>{{ tweet.content }}</h3>
-        </div>
+        <a-tweet class="tweet" v-for="tweet in tweetList" v-bind:key="tweet.tweetId" :tweet="tweet">
+        </a-tweet>
     </div>
 </template>
 
 <script>
+import ATweet from "./ATweet.vue"
+
     export default {
         name: "all-tweets",
+        components: {
+            ATweet
+        },
         computed: {
-            tweets: function() {
-                return this.$store.state.tweets;
+            tweetList: function() {
+                return this.$store.state.tweetList;
             }
         }
     }
 </script>
 
 <style lang="sass" scoped>
-
+    
 </style>
