@@ -1,17 +1,17 @@
 <template>
     <div>
-        <a-tweet class="tweet" v-for="tweet in tweetList" v-bind:key="tweet.tweetId" :tweet="tweet">
-        </a-tweet>
+        <tweet class="tweets" v-for="tweet in tweetList" v-bind:key="tweet.tweetId" :tweet="tweet">
+        </tweet>
     </div>
 </template>
 
 <script>
-import ATweet from "./ATweet.vue"
+import Tweet from "./Tweet.vue"
 
     export default {
         name: "all-tweets",
         components: {
-            ATweet
+            Tweet
         },
         computed: {
             tweetList: function() {
@@ -21,6 +21,9 @@ import ATweet from "./ATweet.vue"
     }
 </script>
 
-<style lang="sass" scoped>
-    
+<style lang="scss" scoped>
+.tweets {
+    min-height: 5vh;
+    width: 90%;
+}
 </style>

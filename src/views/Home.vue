@@ -5,6 +5,7 @@
                 <img id="user-image" @click="userProfile" :src="UserImage" alt="user image">
                 <h3>Home</h3>
                 <div></div>
+                <button @click="getAllTweets">Tweets</button>
                 <button @click="userLogout" id="logout">Log Out</button>
             </div>
             <all-tweets id="tweets"></all-tweets>
@@ -93,6 +94,9 @@ import AllTweets from '../components/AllTweets'
             createTweet: function() {
                 this.$router.push("Tweet");
                 cookies.set("userPicture", this.$store.getters.userUrl);
+            },
+            getAllTweets: function() {
+                this.$store.dispatch("getAllTweets");
             }
         }
     }
@@ -126,7 +130,7 @@ import AllTweets from '../components/AllTweets'
         height: 10vh;
         width: 100%;
         display: grid;
-        grid-template-columns: 20% 20% 40% 20%;
+        grid-template-columns: repeat(5, 1fr);
         justify-items: center;
         align-items: center;
         border-bottom: 2px solid #1DA1F2;
@@ -148,19 +152,19 @@ import AllTweets from '../components/AllTweets'
         button {
             width: 20vw;
             height: 5vh;
-            background-color: #1DA1F2;
-            color: white;
+            border: 1px solid #1DA1F2;
+            color: #1DA1F2;
             font-family: Arial, Helvetica, sans-serif;
             font-size: 0.8rem;
-            border: none;
             border-radius: 1.5em;
             font-weight: bold;
             margin-right: 2em;
+            background-color: white;
         }
     }
 
     #tweets {
-        min-height: 90vh;
+        min-height: 60vh;
         display: grid;
         justify-items: center;
         align-items: center; 

@@ -5,7 +5,9 @@
             <h4>{{ tweet.created_at }}</h4>
             <div></div>
         </div>
-        <p>{{ tweet.content }}</p>
+        <div id="container-2">
+            <p>{{ tweet.content }}</p>
+        </div>
     </div>
 </template>
 
@@ -38,9 +40,9 @@
     display: grid;
     justify-items: center;
     align-items: center; 
-    background-color: #E1E8ED;
-    opacity: 0.7;
-    margin-top: 1em;
+    background-color:  #E1E8ED;
+    border-bottom: 1px solid #1DA1F2;
+    margin-top: 2em;
 
     h3 {
         font-weight: bold; 
@@ -51,21 +53,23 @@
     h4 {
         font-family: Arial, Helvetica, sans-serif;
         font-size: 0.8rem;
-        color: #AAB8C2;
+        color: #657786;
     }
 }
-    
-p {
-    height: 10vh;
-    width: 90%;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 0.8rem;
-    margin-top: 1em;
+
+#container-2 {
+    width: 100%;
+    min-height: 10vh;
     display: grid;
     justify-items: center;
     align-items: center; 
-    background-color: #E1E8ED;
-
+    margin-top: 0.5em;
+    
+    p {
+        width:90%;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 0.8rem;
+    }
 }
 
 </style>

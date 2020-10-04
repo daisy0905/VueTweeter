@@ -20,25 +20,18 @@
                 <h5>Birthdate: {{ birthdate }}</h5>
             </div>
         </div>
-        <other-tweets id="tweets" class="tweet" v-for="tweet in othertweets" :key="tweet.tweetId" :tweet="tweet"></other-tweets>
+        <other-tweets class="tweets" v-for="tweet in othertweets" :key="tweet.tweetId" :tweet="tweet"></other-tweets>
     </div>
 </template>
 
 <script>
 import cookies from 'vue-cookies'
 import OtherTweets from '../components/OtherUserTweets.vue'
-import OtherUserTweetApi from 'axios'
-import OtherUserApi from 'axios'
+import axios from 'axios'
 
     export default {
         components: {
             OtherTweets
-        },
-        props: {
-            tweet: {
-                type: Object,
-                required: true
-            }
         },
         data() {
             return {
@@ -53,7 +46,7 @@ import OtherUserApi from 'axios'
         methods: {
             getOtherUserProfile: function() {
                 this.Status = "Loading"
-                OtherUserTweetApi.request({
+                axios.request({
                 url: "https://tweeterest.ml/api/users",
                    method: "GET",
                    headers: {
@@ -77,7 +70,7 @@ import OtherUserApi from 'axios'
             },
             getOtherUserTweets: function() {
                 this.Status = "Loading"
-                OtherUserApi.request({
+                axios.request({
                 url: "https://tweeterest.ml/api/tweets",
                    method: "GET",
                    headers: {
@@ -226,7 +219,7 @@ import OtherUserApi from 'axios'
 
 #container-4 {
     height: 5vh;
-    width: 100%;
+    width: 90%;
     display: grid;
     justify-items: left;
     align-items: center;
@@ -268,9 +261,8 @@ import OtherUserApi from 'axios'
     }
 }
 
-#tweets {
-    margin-top:4vh;
-    min-height: 10vh;
+.tweets {
+    min-height: 5vh;
     width: 90%;
 }
 </style>

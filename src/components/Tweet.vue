@@ -7,21 +7,16 @@
         </div>
         <div id="container-2">
             <p>{{ tweet.content }}</p>
-        </div>
-        <div id="container-3">
-            <button class="tweet-btn" @click="goToTweet">Update Tweet</button>
-            <button class="tweet-btn" @click="deleteTweet">Delete Tweet</button>
-        </div>
-        
+        </div>   
     </div>
 </template>
 
 <script>
 import cookies from 'vue-cookies'
-import deleteTweetApi from 'axios'
+import axios from 'axios'
 
     export default {
-        name: "a-tweet",
+        name: "tweet",
         props: {
             tweet: {
                 type: Object,
@@ -29,13 +24,9 @@ import deleteTweetApi from 'axios'
             }
         },
         methods: {
-           goToTweet: function() {
-               cookies.set("userTweetId", this.tweet.tweetId);
-               this.$router.push("Tweet")
-           },
            deleteTweet: function() {
                 this.Status = "Loading"
-                deleteTweetApi.request({
+                axios.request({
                    url: "https://tweeterest.ml/api/tweets",
                    method: "DELETE",
                    headers: {
@@ -72,14 +63,6 @@ import deleteTweetApi from 'axios'
     box-sizing: border-box;
 }
 
-#tweet-unit {
-    min-height: 5vh;
-    width: 90%;
-    display: grid;
-    justify-items: center;
-    align-items: center; 
-}
-
 #container-1 {
     width: 100%;
     height: 5vh;
@@ -89,7 +72,7 @@ import deleteTweetApi from 'axios'
     align-items: center; 
     background-color:  #E1E8ED;
     border-bottom: 1px solid #1DA1F2;
-    margin-top: 1em;
+    margin-top: 2em;
 
     h3 {
         font-weight: bold; 
@@ -99,7 +82,7 @@ import deleteTweetApi from 'axios'
 
     h4 {
         font-family: Arial, Helvetica, sans-serif;
-        font-size: 0.8rem; 
+        font-size: 0.8rem;
         color: #657786;
     }
 }
@@ -112,32 +95,10 @@ import deleteTweetApi from 'axios'
     align-items: center; 
     margin-top: 0.5em;
     
-
     p {
-    width: 90%;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 0.8rem;
-    }
-}
-
-#container-3 {
-    width: 100%;
-    height: 5vh;
-    display: grid;
-    justify-items: center;
-    align-items: center; 
-    grid-template-columns: 50% 50%;
-    column-gap: 1vw;
-
-    .tweet-btn {
-        width: 25vw;
-        height: 3vh;
+        width:90%;
         font-family: Arial, Helvetica, sans-serif;
         font-size: 0.8rem;
-        border: none;
-        border-bottom: 1px solid #657786;
-        background-color: white;
+    }
 }
-}
-
 </style>

@@ -187,7 +187,7 @@ import UserTweets from '../components/UserTweets'
 
 #container-4 {
     height: 5vh;
-    width: 100%;
+    width: 90%;
     display: grid;
     justify-items: left;
     align-items: center;
@@ -231,6 +231,10 @@ import UserTweets from '../components/UserTweets'
 
 #tweets {
     min-height: 50vh;
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    align-items: center;
 }
 
 
