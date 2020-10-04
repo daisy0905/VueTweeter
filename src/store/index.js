@@ -1,8 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import getProfileApi from 'axios'
+import axios from 'axios'
 import cookies from 'vue-cookies'
-import tweetsApi from 'axios'
 
 Vue.use(Vuex);
 
@@ -55,7 +54,9 @@ export default new Vuex.Store({
     id: cookies.get("UserId"),
     token: cookies.get("loginToken"),
     status: "",
-    user: []
+    user: [],
+    followList: [],
+    following: "true"
 
   },
   mutations: {
@@ -69,6 +70,9 @@ export default new Vuex.Store({
     updateAllTweets: function(state, data) {
       state.tweetList = data;
     },
+    updateFollow: function(state, data) {
+      state.followList = data;
+    }
 
     // modifyTweet: function(state, tweetId, content) {
     //   state.tweets.
@@ -77,7 +81,7 @@ export default new Vuex.Store({
   actions: {
     getProfile: function(state) {
       console.log(cookies.get("userId"));
-      getProfileApi.request({
+      axios.request({
         url: "https://tweeterest.ml/api/users",
         method: "GET",
         headers: {
@@ -96,15 +100,15 @@ export default new Vuex.Store({
     },
 
     getTweets: function(context) {
-      tweetsApi.request({
+      axios.request({
         url: "https://tweeterest.ml/api/tweets",
         method: "GET",
         headers: {
           "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
-         },
-         params: {
+        },
+        params: {
             userId: cookies.get("userId"),
-      }
+        }
       }).then((response) => {
         context.commit("updateTweets", response.data),
         cookies.set("userTweetId", response.data.tweetId),
@@ -114,7 +118,7 @@ export default new Vuex.Store({
       })
     },
     getAllTweets: function(context) {
-      tweetsApi.request({
+      axios.request({
         url: "https://tweeterest.ml/api/tweets",
         method: "GET",
         headers: {
@@ -127,7 +131,25 @@ export default new Vuex.Store({
       }).catch((error) => {
         console.log(error)
       })
+    },
+    getFollow: function(state) {
+      axios.request({
+        url: "https://tweeterest.ml/api/follows",
+        method: "GET",
+        headers: {
+          "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
+        },
+        params: {
+          userId: cookies.get("userId"),
+        }
+      }).then((response) => {
+        state.commit("updateFollow", response.data),
+        console.log(response.data)
+      }).catch((error) => {
+        console.log(error)
+      })
     }
+
   },
   modules: {},
   getters: {

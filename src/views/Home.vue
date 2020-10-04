@@ -26,7 +26,7 @@
 <script>
 
 import cookies from 'vue-cookies'
-import deleteApi from 'axios'
+import axios from 'axios'
 import AllTweets from '../components/AllTweets'
 
     export default {
@@ -60,7 +60,7 @@ import AllTweets from '../components/AllTweets'
                 }
             },
             mounted: function() {
-                this.checkLogin;
+                this.checkLogin();
             },
             userLogout: function() {
                 cookies.remove("loginToken");
@@ -69,7 +69,7 @@ import AllTweets from '../components/AllTweets'
             },
             deleteProfile: function() {
                 this.Status = "Loading"
-                deleteApi.request({
+                axios.request({
                    url: "https://tweeterest.ml/api/users",
                    method: "DELETE",
                    headers: {

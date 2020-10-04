@@ -152,6 +152,17 @@ import updateTweetApi from 'axios'
         border-bottom: 1px solid #1DA1F2;
         text-align: center;
     }
+
+    button {
+        width: 30vw;
+        height: 5vh;
+        background-color: white;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 0.8rem;
+        border: 1px solid #1DA1F2;
+        border-radius: 1.5em;
+        font-weight: bold;
+    }
 }
 
 #space {

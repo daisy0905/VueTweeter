@@ -4,6 +4,8 @@
             <h3 @click="goToOtherUser">{{ tweet.username }}</h3>
             <h4>{{ tweet.created_at }}</h4>
             <div></div>
+            <button v-if="Following == 'true'">Following</button>
+            <button v-else-if="Following == 'false'">Follow</button>
         </div>
         <div id="container-2">
             <p>{{ tweet.content }}</p>
@@ -13,7 +15,6 @@
 
 <script>
 import cookies from 'vue-cookies'
-import axios from 'axios'
 
     export default {
         name: "tweet",
@@ -23,34 +24,35 @@ import axios from 'axios'
                 required: true
             }
         },
-        methods: {
-           deleteTweet: function() {
-                this.Status = "Loading"
-                axios.request({
-                   url: "https://tweeterest.ml/api/tweets",
-                   method: "DELETE",
-                   headers: {
-                    "Content-Type": "application/json",
-                    "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
-                   },
-                   data: {
-                       tweetId: this.tweet.tweetId,
-                       loginToken: cookies.get("loginToken")
-                   }
-                }).then((response) => {
-                    console.log(response);
-                    this.status = "Success";
-                }).catch((error) => {
-                    console.log(error);
-                    this.status = "Error";
+        data() {
+            return {
+                userFollow: cookies.get("otherUserId"),
 
-                }) 
-            },
+            }
+        },
+        methods: {
             goToOtherUser: function() {
                 cookies.set("otherUserId", this.tweet.userId),
                 this.$router.push("OtherProfile")
+            },
+            followCheck: function() {
+                for(let i=0; i<this.$store.state.followList.length; i++) {
+                    if(this.userFollow == this.$store.state.followList[i].userId) {
+                        this.Following = "true";
+                    } else {
+                        this.Following = "false";
+                    }
+                }
             }
         },
+        mounted () {
+            this.$store.dispatch("getFollow()");
+        },
+        computed: {
+            Following() {
+                return this.$store.state.following
+            }
+        }
     }
        
 </script>

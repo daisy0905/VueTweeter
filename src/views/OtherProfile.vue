@@ -35,7 +35,6 @@ import axios from 'axios'
         },
         data() {
             return {
-                UserPhoto: cookies.get("userPicture"),
                 status: "",
                 name: "",
                 bio: "",
@@ -97,7 +96,12 @@ import axios from 'axios'
         },
         mounted () {
             this.getOtherUserProfile();
-            this. getOtherUserTweets();
+            this.getOtherUserTweets();
+        },
+        computed: {
+            UserPhoto() {
+                return this.$store.getters.userUrl
+            }
         },
     }
 </script>
