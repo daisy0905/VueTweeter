@@ -8,6 +8,7 @@ import ProfilePage from "../views/Profile.vue"
 import UserIntroPage from "../views/UserIntro.vue"
 import TweetPage from "../views/Tweet.vue"
 import OtherProfilePage from "../views/OtherProfile.vue"
+import FollowPage from "../views/Follow.vue"
 
 
 Vue.use(VueRouter);
@@ -52,6 +53,11 @@ const routes = [
     path: "/OtherProfile",
     name: "otherprofile-page",
     component: OtherProfilePage
+  },
+  {
+    path: "/Follow",
+    name: "follow-page",
+    component: FollowPage
   }
 
 ];

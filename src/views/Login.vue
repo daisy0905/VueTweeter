@@ -56,6 +56,7 @@ import cookies from 'vue-cookies'
                         // cookies.set("userBirthdate", response.data.birthdate);
                         cookies.set("userPassword", this.password);
                         //send user to "home page"
+                        this.$store.dispatch("getAllUsers");
                         this.$store.dispatch("getAllTweets");
                         this.$router.push("Home");
                     }

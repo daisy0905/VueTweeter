@@ -11,7 +11,7 @@
             </div>
             <div id="container-3">
                 <div id="user-image">
-                    <img @click="getOtherUserProfile" :src="UserPhoto" alt="user image">
+                    <img :src="UserPhoto" alt="user image">
                     <h3>{{name}}</h3>
                 </div>
             </div>
@@ -53,7 +53,7 @@ import axios from 'axios'
                     "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
                    },
                    params: {
-                       userId: cookies.get("otherUserId")
+                       userId: cookies.get("otherId")
                    }
                 }).then((response) => {
                     console.log(response);
@@ -77,7 +77,7 @@ import axios from 'axios'
                     "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
                    },
                    params: {
-                       userId: cookies.get("otherUserId")
+                       userId: cookies.get("otherId")
                    }
                 }).then((response) => {
                     console.log(response);

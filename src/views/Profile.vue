@@ -23,6 +23,17 @@
                 <h5>Birthdate: {{ birthdate }}</h5>
             </div>
             <div id="container-5">
+                <div>
+                    <h4></h4>
+                    <p @click="getFollowing">Following</p>
+                </div>
+                <div>
+                    <h4></h4>
+                    <!-- <p @click="getFollower">Follower</p> -->
+                </div>
+                <div></div>
+            </div>
+            <div id="container-6">
                 <button class="tweet-btn" @click="viewTweets">Tweets</button>
                 <button class="tweet-btn">Tweets&Replies</button>
             </div>
@@ -53,7 +64,11 @@ import UserTweets from '../components/UserTweets'
                 this.$router.push("Home");
             },
             viewTweets: function() {
-                this.$store.dispatch("getTweets")
+                this.$store.dispatch("getTweets");
+            },
+            getFollowing: function() {
+                this.$store.dispatch("getFollowing");
+                this.$router.push("Follow");
             }
         },
         computed: {
@@ -208,6 +223,16 @@ import UserTweets from '../components/UserTweets'
 }
 
 #container-5 {
+    height: 5vh;
+    width: 90%;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    margin-top: 4vh;
+    grid-template-columns: 35% 35% 30%;
+}
+
+#container-6 {
     height: 5vh;
     width: 100%;
     display: grid;

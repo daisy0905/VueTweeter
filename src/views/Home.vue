@@ -5,10 +5,18 @@
                 <img id="user-image" @click="userProfile" :src="UserImage" alt="user image">
                 <h3>Home</h3>
                 <div></div>
-                <button @click="getAllTweets">Tweets</button>
+                <button @click="refresh">Refresh</button>
                 <button @click="userLogout" id="logout">Log Out</button>
             </div>
-            <all-tweets id="tweets"></all-tweets>
+            <div id="user-container">
+                 <h2>Who to Follow</h2>
+                <all-users id="users"></all-users>
+            </div>
+            <div id="tweet-container">
+                <h2>Discover</h2>
+                <all-tweets id="tweets"></all-tweets>
+            </div>
+           
             <div id="delete-account">
                 <button @click="deleteProfile" id="delete-btn">Delete Account</button>
             </div>
@@ -28,10 +36,12 @@
 import cookies from 'vue-cookies'
 import axios from 'axios'
 import AllTweets from '../components/AllTweets'
+import AllUsers from '../components/AllUsers.vue'
 
     export default {
         components: {
-            AllTweets
+            AllTweets,
+            AllUsers
         },
         data() {
             return {
@@ -95,7 +105,8 @@ import AllTweets from '../components/AllTweets'
                 this.$router.push("Tweet");
                 cookies.set("userPicture", this.$store.getters.userUrl);
             },
-            getAllTweets: function() {
+            refresh: function() {
+                this.$store.dispatch("getAllUsers");
                 this.$store.dispatch("getAllTweets");
             }
         }
@@ -136,8 +147,8 @@ import AllTweets from '../components/AllTweets'
         border-bottom: 2px solid #1DA1F2;
 
         #user-image {
-            width: 90%;
-            height: 90%;
+            width: 50px;
+            height: 50px;
             object-fit: cover;
             border-radius: 50%;
         }
@@ -163,12 +174,64 @@ import AllTweets from '../components/AllTweets'
         }
     }
 
+    #user-container {
+        min-height: 60vh;
+        width: 100%;
+        display: grid;
+        justify-items: center;
+        align-items: center;
+        margin-top: 1em;
+
+        h2 {
+            font-weight: bold; 
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            font-size: 1.2rem;
+            width:90%;
+            text-align: left;
+            border-bottom: 1px solid #AAB8C2;
+        }
+
+    #users {
+        min-height: 60vh;
+        width: 100%;
+        display: grid;
+        justify-items: center;
+        align-items: center; 
+        grid-template-columns: 1fr 1fr;
+        column-gap: 1vw;
+        margin-top: 1em;
+        row-gap: 1vh;
+    }
+}
+
+#tweet-container {
+    min-height: 60vh;
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    margin-top: 1em;
+    
+    h2 {
+        font-weight: bold; 
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        font-size: 1.2rem;
+        width:90%;
+        text-align: left;
+        border-bottom: 1px solid #1DA1F2;
+    }
+
     #tweets {
         min-height: 60vh;
+        width: 100%;
         display: grid;
         justify-items: center;
         align-items: center; 
     }
+    
+}
 
     #delete-account {
         display: grid;
@@ -185,7 +248,7 @@ import AllTweets from '../components/AllTweets'
         border: 1px solid #1DA1F2;
         border-radius: 1.5em;
         font-weight: bold;
-        margin-right: 2em;
+        margin-top: 2em;
     }
 
     #tweet-icon {

@@ -56,7 +56,8 @@ export default new Vuex.Store({
     status: "",
     user: [],
     followList: [],
-    following: "true"
+    following: "true",
+    userList: []
 
   },
   mutations: {
@@ -72,6 +73,9 @@ export default new Vuex.Store({
     },
     updateFollow: function(state, data) {
       state.followList = data;
+    },
+    viewUser: function(state, data) {
+      state.userList = data;
     }
 
     // modifyTweet: function(state, tweetId, content) {
@@ -85,6 +89,7 @@ export default new Vuex.Store({
         url: "https://tweeterest.ml/api/users",
         method: "GET",
         headers: {
+            "Content-Type": "application/json",
             "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
         },
         params: {
@@ -104,6 +109,7 @@ export default new Vuex.Store({
         url: "https://tweeterest.ml/api/tweets",
         method: "GET",
         headers: {
+          "Content-Type": "application/json",
           "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
         },
         params: {
@@ -122,6 +128,7 @@ export default new Vuex.Store({
         url: "https://tweeterest.ml/api/tweets",
         method: "GET",
         headers: {
+          "Content-Type": "application/json",
           "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
          }
       }).then((response) => {
@@ -132,11 +139,28 @@ export default new Vuex.Store({
         console.log(error)
       })
     },
-    getFollow: function(state) {
+    getAllUsers: function(state) {
+      axios.request({
+        url: "https://tweeterest.ml/api/users",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
+        },
+    }).then((response) => {
+        this.commit("viewUser", response.data),
+        console.log(response.data)
+    }).catch((error) => {
+        console.log(error);
+        state.status = "Error";
+    })
+    },
+    getFollowing: function(state) {
       axios.request({
         url: "https://tweeterest.ml/api/follows",
         method: "GET",
         headers: {
+          "Content-Type": "application/json",
           "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
         },
         params: {
