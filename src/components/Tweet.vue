@@ -2,7 +2,7 @@
     <div id="tweet-unit">
         <div id="container-1">
             <h3 @click="goToOtherUser">{{ tweet.username }}</h3>
-            <h4>{{ tweet.created_at }}</h4>
+            <h4>{{ tweet.createdAt }}</h4>
             <div></div>
         </div>
         <div id="container-2">
@@ -32,25 +32,8 @@ import cookies from 'vue-cookies'
             goToOtherUser: function() {
                 cookies.set("otherUserId", this.tweet.userId),
                 this.$router.push("OtherProfile")
-            },
-            // followCheck: function() {
-            //     for(let i=0; i<this.$store.state.followList.length; i++) {
-            //         if(this.userFollow == this.$store.state.followList[i].userId) {
-            //             this.Following = "true";
-            //         } else {
-            //             this.Following = "false";
-            //         }
-            //     }
-            // }
-        },
-        // mounted () {
-        //     this.$store.dispatch("getFollow()");
-        // },
-        // computed: {
-        //     Following() {
-        //         return this.$store.state.following
-        //     }
-        // }
+            }
+        }
     }
        
 </script>

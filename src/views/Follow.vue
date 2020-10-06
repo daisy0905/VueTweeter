@@ -6,11 +6,21 @@
             <div></div>
         </div>
         <div id="container-2">
-            <h4 @click="getFollowing">Following</h4>
-            <h4>Follower</h4>
+            <div class="user-follow">
+                <div></div>
+                <h5>{{ followingNum }}</h5>
+                <h4 @click="getFollowing">Following</h4>
+                <div></div>
+            </div>
+            <div class="user-follow">
+                <div></div>
+                <h5>{{ followerNum }}</h5>
+                <h4 @click="getFollower">Follower</h4>
+                <div></div>
+            </div>
         </div>
         <all-user-following class="follow" v-if="follow == true"></all-user-following>
-        <all-user-follower class="follow" v-else-if="follow == false">follower</all-user-follower>
+        <all-user-follower class="follow" v-else-if="follow == false"></all-user-follower>
     </div>
 </template>
 
@@ -30,8 +40,10 @@ import AllUserFollower from '../components/AllUserFollower.vue'
         },
         methods: {
             getFollowing: function() {
-                this.$store.dispatch("getFollowing");
                 this.follow = true;
+            },
+            getFollower: function() {
+                this.follow = false;
             },
             backToProfile: function() {
                 this.$router.push("Profile")
@@ -39,9 +51,19 @@ import AllUserFollower from '../components/AllUserFollower.vue'
         },
         computed: {
             name: function() {
-                return this.$store.state.user.username
-            }
-        }
+                return this.$store.state.user.username;
+            },
+            followingNum: function() {
+                return this.$store.state.followList.length;
+            },
+            followerNum: function() {
+                return this.$store.state.followerList.length;
+            },
+        },
+        mounted () {
+            this.$store.dispatch("getFollowing");
+            this.$store.dispatch("getFollower");
+        },
     }
 </script>
 
@@ -88,11 +110,28 @@ import AllUserFollower from '../components/AllUserFollower.vue'
     align-items: center;
     grid-template-columns: 1fr 1fr;
 
-    h4 {
-        font-weight: bold; 
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 0.8rem;
-        color: #1DA1F2;
+
+    .user-follow {
+        height: 5vh;
+        width: 100%;
+        display: grid;
+        justify-items: center;
+        align-items: center;
+        grid-template-columns: 1fr 1.5fr 1.5fr 1fr;
+
+        h5 {
+            font-weight: bold; 
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 0.8rem;
+            color: #AAB8C2;
+        }
+
+        h4 {
+            font-weight: bold; 
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 0.8rem;
+            color: #1DA1F2;
+        }
     }
 }
 

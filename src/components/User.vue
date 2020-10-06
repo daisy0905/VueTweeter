@@ -6,8 +6,7 @@
         <div id="container-2">
             <h3>{{ user.username }}</h3>
             <p>{{ user.bio }}</p>
-            <button @click="createFollow" id="follow-btn" v-if="userFollow == false">Follow</button>
-            <button @click="createFollow" id="following-btn" v-if="userFollow == true">Following</button>
+            <button @click="followChoice" id="follow-btn">{{ userFollow }}</button>
         </div>
     </div>
 </template>
@@ -20,7 +19,7 @@ import axios from 'axios'
         name: "user",
         data() {
             return {
-                userFollow: false,
+                userFollow: " ",
                 token: cookies.get("loginToken"),
             }
         },
@@ -34,6 +33,17 @@ import axios from 'axios'
             viewOtherUser: function() {
                 cookies.set("otherId", this.user.userId),
                 this.$router.push("OtherProfile")
+            },
+            followCheck: function() {
+                for(let i=0; i<this.$store.state.followList.length; i++) {
+                    if(this.user.userId == this.$store.state.followList[i].userId) {
+                        this.userFollow = "Following";
+                        cookies.set("userFollow", this.userFollow);
+                    } else {
+                        this.userFollow = "Follow";
+                        cookies.set("userFollow", this.userFollow);
+                    }
+                }
             },
             createFollow: function() {
                axios.request({
@@ -49,16 +59,45 @@ import axios from 'axios'
                    }
                }).then((response) => {
                    console.log(response);
-                   this.userFollow = true;
+                   this.userFollow = "Following";
                }).catch((error) => {
                    console.log(error)
                })
-           },
+            },
+            deleteFollow: function() {
+                axios.request({
+                   url: "https://tweeterest.ml/api/follows",
+                   method: "DELETE",
+                   headers: {
+                    "Content-Type": "application/json",
+                    "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
+                   },
+                   data: {
+                       loginToken: this.token,
+                       followId: this.user.userId
+                   }
+                }).then((response) => {
+                   console.log(response);
+                   this.userFollow = "Follow";
+                }).catch((error) => {
+                   console.log(error)
+                })
+            },
+            followChoice: function() {
+               if(this.userFollow == "Following") {
+                   return this.deleteFollow();
+               }else if(this.userFollow == "Follow") {
+                   return this.createFollow();
+               }
+           }
         },
         computed: {
             UserPhoto() {
                 return this.$store.getters.userUrl
             }
+        },
+        mounted () {
+            this.followCheck();
         },
     }
 </script>

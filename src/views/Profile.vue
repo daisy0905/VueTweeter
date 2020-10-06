@@ -23,19 +23,22 @@
                 <h5>Birthdate: {{ birthdate }}</h5>
             </div>
             <div id="container-5">
-                <div>
-                    <h4></h4>
-                    <p @click="getFollowing">Following</p>
+                <div class="user-follow">
+                    <div></div>
+                    <h5>{{ followingNum }}</h5>
+                    <h4 @click="getFollowing">Following</h4>
+                    <div></div>
                 </div>
-                <div>
-                    <h4></h4>
-                    <!-- <p @click="getFollower">Follower</p> -->
+                <div class="user-follow">
+                    <div></div>
+                    <h5>{{ followerNum }}</h5>
+                    <h4 @click="getFollower">Follower</h4>
+                    <div></div>
                 </div>
-                <div></div>
             </div>
             <div id="container-6">
                 <button class="tweet-btn" @click="viewTweets">Tweets</button>
-                <button class="tweet-btn">Tweets&Replies</button>
+                <!-- <button class="tweet-btn">Tweets&Replies</button> -->
             </div>
         </div>
         <user-tweets id="tweets"></user-tweets>
@@ -69,6 +72,10 @@ import UserTweets from '../components/UserTweets'
             getFollowing: function() {
                 this.$store.dispatch("getFollowing");
                 this.$router.push("Follow");
+            },
+            getFollower: function() {
+                this.$store.dispatch("getFollower");
+                this.$router.push("Follow");
             }
         },
         computed: {
@@ -80,8 +87,18 @@ import UserTweets from '../components/UserTweets'
             },
             birthdate: function() {
                 return this.$store.state.user.birthdate
-            }
-        }
+            },
+            followingNum: function() {
+                return this.$store.state.followList.length;
+            },
+            followerNum: function() {
+                return this.$store.state.followerList.length;
+            },
+        },
+        mounted () {
+            this.$store.dispatch("getFollowing");
+            this.$store.dispatch("getFollower");
+        },
     }
 </script>
 
@@ -102,7 +119,7 @@ import UserTweets from '../components/UserTweets'
 }
 
 #header {
-    min-height: 40vh;
+    min-height: 30vh;
     width: 100%;
     display: grid;
     justify-items: center;
@@ -129,7 +146,7 @@ import UserTweets from '../components/UserTweets'
 }
 
 #container-2 {
-    min-height: 20vh;
+    min-height: 10vh;
     width: 100%;
     display: grid;
     justify-items: center;
@@ -224,12 +241,36 @@ import UserTweets from '../components/UserTweets'
 
 #container-5 {
     height: 5vh;
-    width: 90%;
+    width: 100%;
     display: grid;
     justify-items: center;
     align-items: center;
-    margin-top: 4vh;
-    grid-template-columns: 35% 35% 30%;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 2em;
+
+
+    .user-follow {
+        height: 5vh;
+        width: 100%;
+        display: grid;
+        justify-items: center;
+        align-items: center;
+        grid-template-columns: 1fr 1.5fr 1.5fr 1fr;
+
+        h5 {
+            font-weight: bold; 
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 0.8rem;
+            color: #AAB8C2;
+        }
+
+        h4 {
+            font-weight: bold; 
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 0.8rem;
+            color: #1DA1F2;
+        }
+    }
 }
 
 #container-6 {
@@ -238,7 +279,6 @@ import UserTweets from '../components/UserTweets'
     display: grid;
     justify-items: center;
     align-items: center;
-    margin-top: 5vh;
     grid-template-columns: 50% 50%;
 
     .tweet-btn {
@@ -255,7 +295,7 @@ import UserTweets from '../components/UserTweets'
 }
 
 #tweets {
-    min-height: 50vh;
+    min-height: 30vh;
     width: 100%;
     display: grid;
     justify-items: center;

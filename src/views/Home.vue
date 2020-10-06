@@ -108,6 +108,7 @@ import AllUsers from '../components/AllUsers.vue'
             refresh: function() {
                 this.$store.dispatch("getAllUsers");
                 this.$store.dispatch("getAllTweets");
+                this.$store.dispatch("getFollowing");
             }
         }
     }

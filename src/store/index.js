@@ -56,7 +56,8 @@ export default new Vuex.Store({
     status: "",
     user: [],
     followList: [],
-    following: "true",
+    followerList: [],
+    // following: "true",
     userList: []
 
   },
@@ -73,6 +74,9 @@ export default new Vuex.Store({
     },
     updateFollow: function(state, data) {
       state.followList = data;
+    },
+    updateFollower: function(state, data) {
+      state.followerList = data;
     },
     viewUser: function(state, data) {
       state.userList = data;
@@ -168,6 +172,24 @@ export default new Vuex.Store({
         }
       }).then((response) => {
         state.commit("updateFollow", response.data),
+        console.log(response.data)
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    getFollower: function(state) {
+      axios.request({
+        url: "https://tweeterest.ml/api/followers",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
+        },
+        params: {
+          userId: cookies.get("userId"),
+        }
+      }).then((response) => {
+        state.commit("updateFollower", response.data),
         console.log(response.data)
       }).catch((error) => {
         console.log(error)

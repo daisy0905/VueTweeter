@@ -17,8 +17,7 @@
 
 <script>
 import cookies from 'vue-cookies'
-import tweetApi from 'axios'
-import updateTweetApi from 'axios'
+import axios from 'axios'
 
     export default {
         data() {
@@ -34,7 +33,7 @@ import updateTweetApi from 'axios'
                 this.$router.push("Home");
             },
             createTweet: function() {
-               tweetApi.request({
+               axios.request({
                    url: "https://tweeterest.ml/api/tweets",
                    method: "POST",
                    headers: {
@@ -55,7 +54,7 @@ import updateTweetApi from 'axios'
                })
            },
            updateTweet: function() {
-                updateTweetApi.request({
+                axios.request({
                     url: "https://tweeterest.ml/api/tweets",
                     method: "PATCH",
                     headers: {

@@ -58,6 +58,7 @@ import cookies from 'vue-cookies'
                         //send user to "home page"
                         this.$store.dispatch("getAllUsers");
                         this.$store.dispatch("getAllTweets");
+                        this.$store.dispatch("getFollowing");
                         this.$router.push("Home");
                     }
                 }).catch((error) => {

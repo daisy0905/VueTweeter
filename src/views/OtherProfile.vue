@@ -19,6 +19,20 @@
                 <h4>{{ bio }}</h4>
                 <h5>Birthdate: {{ birthdate }}</h5>
             </div>
+            <div id="container-5">
+                <div class="user-follow">
+                    <div></div>
+                    <h5>{{ followingNum }}</h5>
+                    <h4 @click="getFollowing">Following</h4>
+                    <div></div>
+                </div>
+                <div class="user-follow">
+                    <div></div>
+                    <h5>{{ followerNum }}</h5>
+                    <h4 @click="getFollower">Follower</h4>
+                    <div></div>
+                </div>
+            </div>
         </div>
         <other-tweets class="tweets" v-for="tweet in othertweets" :key="tweet.tweetId" :tweet="tweet"></other-tweets>
     </div>
@@ -89,7 +103,14 @@ import axios from 'axios'
                     this.status = "Error";
                 }) 
             },
-
+            getFollowing: function() {
+                this.$store.dispatch("getFollowing");
+                this.$router.push("Follow");
+            },
+            getFollower: function() {
+                this.$store.dispatch("getFollower");
+                this.$router.push("Follow");
+            },
             goToHome: function() {
                 this.$router.push("Home")
             }
@@ -101,8 +122,14 @@ import axios from 'axios'
         computed: {
             UserPhoto() {
                 return this.$store.getters.userUrl
-            }
-        },
+            },
+            followingNum: function() {
+                return this.$store.state.followList.length;
+            },
+            followerNum: function() {
+                return this.$store.state.followerList.length;
+            },
+        }
     }
 </script>
 
