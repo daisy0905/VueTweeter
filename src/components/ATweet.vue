@@ -2,13 +2,25 @@
     <div id="tweet-unit">
         <div id="container-1">
             <h3 @click="goToOtherUser">{{ tweet.username }}</h3>
-            <h4>{{ tweet.created_at }}</h4>
+            <h4>{{ tweet.createdAt }}</h4>
             <div></div>
         </div>
         <div id="container-2">
             <p>{{ tweet.content }}</p>
         </div>
         <div id="container-3">
+            <div></div>
+            <div class="unit">
+                <h5 @click="getComments">{{ commentNum }}</h5>
+                <img @click="createComment" src="https://www.kindpng.com/picc/m/153-1537658_twitter-comment-icon-png-clipart-png-download-topic.png" alt="tweeter comment icon">
+            </div>
+            <div class="unit">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT-xxei2BZj50qLOyvtuvF7s3RmxqMPoT9wNg&usqp=CAU" alt="tweeter like icon">
+                <!-- <h5>{{ likeNum }}</h5> -->
+            </div>
+            <div></div>
+        </div>
+        <div id="container-4">
             <button class="tweet-btn" @click="goToTweet">Update Tweet</button>
             <button class="tweet-btn" @click="deleteTweet">Delete Tweet</button>
         </div>
@@ -18,7 +30,7 @@
 
 <script>
 import cookies from 'vue-cookies'
-import deleteTweetApi from 'axios'
+import axios from 'axios'
 
     export default {
         name: "a-tweet",
@@ -29,13 +41,13 @@ import deleteTweetApi from 'axios'
             }
         },
         methods: {
-           goToTweet: function() {
+          goToTweet: function() {
                cookies.set("userTweetId", this.tweet.tweetId);
                this.$router.push("Tweet")
            },
            deleteTweet: function() {
                 this.Status = "Loading"
-                deleteTweetApi.request({
+                axios.request({
                    url: "https://tweeterest.ml/api/tweets",
                    method: "DELETE",
                    headers: {
@@ -58,7 +70,26 @@ import deleteTweetApi from 'axios'
             goToOtherUser: function() {
                 cookies.set("otherUserId", this.tweet.userId),
                 this.$router.push("OtherProfile")
+            },
+            createComment: function() {
+                cookies.set("tweetUsername", this.tweet.username);
+                cookies.set("tweetTime", this.tweet.createdAt);
+                cookies.set("tweetTweetId", this.tweet.tweetId);
+                cookies.set("tweetContent", this.tweet.content);
+                this.$router.push("Comment")
+            },
+            getComments: function() {
+               this.$router.push("ViewComment");
+               this.$store.dispatch("getComments");
             }
+        },
+        computed: {
+            commentNum() {
+                return this.$store.state.commentList.length; 
+            }
+        },
+        mounted () {
+            this.$store.dispatch("getComments");
         },
     }
        
@@ -121,6 +152,37 @@ import deleteTweetApi from 'axios'
 }
 
 #container-3 {
+    width: 100%;
+    height: 5vh;
+    display: grid;
+    justify-items: center;
+    align-items: center; 
+    margin-top: 1em;
+    grid-template-columns: repeat(4, 1fr);
+    
+
+    .unit {
+        height: 100%;
+        width: 100%;
+        display: grid;
+        justify-items: center;
+        align-items: center;
+        grid-template-columns: 1fr 1.5fr;
+
+        img {
+            width: 20px;
+        }
+
+        h5 {
+            font-weight: bold; 
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 0.8rem;
+            color: #AAB8C2;
+        }
+    }    
+}
+
+#container-4 {
     width: 100%;
     height: 5vh;
     display: grid;

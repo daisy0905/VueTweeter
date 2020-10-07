@@ -69,7 +69,7 @@ import axios from 'axios'
                 }).then((response) => {
                     console.log(response);
                     this.loginStatus = "Success";
-                    this.$store.commit("modifyTweet", cookies.get("userTweetId"), this.content),
+                    // this.$store.commit("modifyTweet", cookies.get("userTweetId"), this.content),
                     this.$router.push("Profile")
                 }).catch((error) => {
                     console.log(error);

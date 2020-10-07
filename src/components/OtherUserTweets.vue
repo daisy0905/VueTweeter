@@ -37,7 +37,7 @@ import cookies from 'vue-cookies'
         methods: {
             createComment: function() {
                 cookies.set("tweetUsername", this.tweet.username);
-                cookies.set("tweetTime", this.tweet.created_at);
+                cookies.set("tweetTime", this.tweet.createdAt);
                 cookies.set("tweetTweetId", this.tweet.tweetId);
                 cookies.set("tweetContent", this.tweet.content);
                 this.$router.push("Comment")

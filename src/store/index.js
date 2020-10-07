@@ -58,7 +58,8 @@ export default new Vuex.Store({
     followList: [],
     followerList: [],
     // following: "true",
-    userList: []
+    userList: [],
+    commentList: []
 
   },
   mutations: {
@@ -80,7 +81,10 @@ export default new Vuex.Store({
     },
     viewUser: function(state, data) {
       state.userList = data;
-    }
+    },
+    updateComment: function(state, data) {
+      state.commentList = data;
+    },
 
     // modifyTweet: function(state, tweetId, content) {
     //   state.tweets.
@@ -194,7 +198,25 @@ export default new Vuex.Store({
       }).catch((error) => {
         console.log(error)
       })
-    }
+    },
+    getComments: function(state) {
+      axios.request({
+        url: "https://tweeterest.ml/api/comments",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
+        },
+        params: {
+          tweetId: cookies.get("tweetTweetId"),
+        }
+      }).then((response) => {
+        state.commit("updateComment", response.data),
+        console.log(response.data)
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
 
   },
   modules: {},

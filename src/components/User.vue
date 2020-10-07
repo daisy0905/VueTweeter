@@ -38,12 +38,10 @@ import axios from 'axios'
                 for(let i=0; i<this.$store.state.followList.length; i++) {
                     if(this.user.userId == this.$store.state.followList[i].userId) {
                         this.userFollow = "Following";
-                        cookies.set("userFollow", this.userFollow);
-                    } else {
-                        this.userFollow = "Follow";
-                        cookies.set("userFollow", this.userFollow);
-                    }
+                        return
+                    } 
                 }
+                this.userFollow = "Follow";
             },
             createFollow: function() {
                axios.request({

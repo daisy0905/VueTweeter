@@ -11,7 +11,7 @@
             </div>
             <div id="container-3">
                 <div id="user-image">
-                    <img :src="UserPhoto" alt="user image">
+                    <img src="https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" alt="user image">
                     <h3>{{name}}</h3>
                 </div>
             </div>
@@ -276,19 +276,31 @@ import axios from 'axios'
     display: grid;
     justify-items: center;
     align-items: center;
-    margin-top: 5vh;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 2em;
 
-    .tweet-btn {
-        width: 30vw;
+
+    .user-follow {
         height: 5vh;
-        color: #1DA1F2;
-        font-family: Arial, Helvetica, sans-serif;
-        border: none;
-        background-color: white;
-        font-size: 0.8rem;
-        border-bottom: 1px solid #1DA1F2;
-        font-weight: bold;
+        width: 100%;
+        display: grid;
+        justify-items: center;
+        align-items: center;
+        grid-template-columns: 1fr 1.5fr 1.5fr 1fr;
+
+        h5 {
+            font-weight: bold; 
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 0.8rem;
+            color: #AAB8C2;
+        }
+
+        h4 {
+            font-weight: bold; 
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 0.8rem;
+            color: #1DA1F2;
+        }
     }
 }
 

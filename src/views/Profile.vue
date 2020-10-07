@@ -38,7 +38,6 @@
             </div>
             <div id="container-6">
                 <button class="tweet-btn" @click="viewTweets">Tweets</button>
-                <!-- <button class="tweet-btn">Tweets&Replies</button> -->
             </div>
         </div>
         <user-tweets id="tweets"></user-tweets>
@@ -279,7 +278,6 @@ import UserTweets from '../components/UserTweets'
     display: grid;
     justify-items: center;
     align-items: center;
-    grid-template-columns: 50% 50%;
 
     .tweet-btn {
         width: 30vw;

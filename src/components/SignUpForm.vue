@@ -9,7 +9,7 @@
         <h3>Bio</h3>
         <textarea id="bio-input" class="input" v-model="bio"></textarea>
         <h3>Birthdate</h3>
-        <input :placeholder="brithdate" type="text" id="birthdate-input" class="input" v-model="birthdate">
+        <input :placeholder="birthdate" type="text" id="birthdate-input" class="input" v-model="birthdate">
         <button class="btn" @click="signupUser">Sign Up</button>
     </div>
 </template>
