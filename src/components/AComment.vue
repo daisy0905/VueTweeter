@@ -44,11 +44,12 @@ import axios from 'axios'
                    },
                    data: {
                        loginToken: cookies.get("loginToken"),
-                       commentId: cookies.get("userCommentId")
+                       commentId: this.comment.commentId
                    }
                 }).then((response) => {
                     console.log(response);
                     this.status = "Success";
+                    this.$router.push("Profile");
                 }).catch((error) => {
                     console.log(error);
                     this.status = "Error";

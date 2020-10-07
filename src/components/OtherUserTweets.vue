@@ -11,8 +11,8 @@
         <div id="container-3">
             <div></div>
             <div class="unit">
+                <h5>{{ commentNum }}</h5>
                 <img @click="createComment" src="https://www.kindpng.com/picc/m/153-1537658_twitter-comment-icon-png-clipart-png-download-topic.png" alt="tweeter comment icon">
-                <!-- <h5>{{ commentNum }}</h5> -->
             </div>
             <div class="unit">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT-xxei2BZj50qLOyvtuvF7s3RmxqMPoT9wNg&usqp=CAU" alt="tweeter like icon">
@@ -40,8 +40,16 @@ import cookies from 'vue-cookies'
                 cookies.set("tweetTime", this.tweet.createdAt);
                 cookies.set("tweetTweetId", this.tweet.tweetId);
                 cookies.set("tweetContent", this.tweet.content);
-                this.$router.push("Comment")
+                this.$router.push("OtherComment");
             }
+        },
+        computed: {
+            commentNum() {
+                return this.$store.state.commentList.length; 
+            }
+        },
+        mounted () {
+            this.$store.dispatch("getComments");
         },
     }
 </script>

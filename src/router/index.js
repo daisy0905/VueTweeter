@@ -11,6 +11,7 @@ import OtherProfilePage from "../views/OtherProfile.vue"
 import FollowPage from "../views/Follow.vue"
 import CommentPage from "../views/Comment.vue"
 import ViewCommentPage from "../views/ViewComments.vue"
+import ViewOtherCommentPage from "../views/OtherComment.vue"
 
 
 Vue.use(VueRouter);
@@ -70,6 +71,11 @@ const routes = [
     path: "/viewComment",
     name: "viewcomment-page",
     component: ViewCommentPage
+  },
+  {
+    path: "/viewOtherComment",
+    name: "viewothercomment-page",
+    component: ViewOtherCommentPage
   }
 
 ];

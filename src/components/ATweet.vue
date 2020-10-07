@@ -80,7 +80,6 @@ import axios from 'axios'
             },
             getComments: function() {
                this.$router.push("ViewComment");
-               this.$store.dispatch("getComments");
             }
         },
         computed: {
