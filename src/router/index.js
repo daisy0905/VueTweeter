@@ -10,7 +10,7 @@ import TweetPage from "../views/Tweet.vue"
 import OtherProfilePage from "../views/OtherProfile.vue"
 import FollowPage from "../views/Follow.vue"
 import CommentPage from "../views/Comment.vue"
-import ViewCommentPage from "../views/ViewComments.vue"
+import ViewCommentPage from "../views/ViewComment.vue"
 import ViewOtherCommentPage from "../views/OtherComment.vue"
 
 

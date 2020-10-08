@@ -15,8 +15,9 @@
                 <img @click="createComment" src="https://www.kindpng.com/picc/m/153-1537658_twitter-comment-icon-png-clipart-png-download-topic.png" alt="tweeter comment icon">
             </div>
             <div class="unit">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT-xxei2BZj50qLOyvtuvF7s3RmxqMPoT9wNg&usqp=CAU" alt="tweeter like icon">
-                <!-- <h5>{{ likeNum }}</h5> -->
+                <span id="like-active">{{ likeNum }}</span>
+                <img src="https://www.pngitem.com/pimgs/m/77-770619_leave-a-reply-cancel-reply-twitter-like-icon.png" alt="tweeter like icon" v-if="ifLike" @click="unlike">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT-xxei2BZj50qLOyvtuvF7s3RmxqMPoT9wNg&usqp=CAU" alt="tweeter unlike icon" v-else @click="like">
             </div>
             <div></div>
         </div>
@@ -40,12 +41,17 @@ import axios from 'axios'
                 required: true
             }
         },
+        data() {
+            return {
+                token: cookies.get("loginToken"),
+            }
+        },
         methods: {
-          goToTweet: function() {
+            goToTweet: function() {
                cookies.set("userTweetId", this.tweet.tweetId);
                this.$router.push("Tweet")
-           },
-           deleteTweet: function() {
+            },
+            deleteTweet: function() {
                 this.Status = "Loading"
                 axios.request({
                    url: "https://tweeterest.ml/api/tweets",
@@ -80,18 +86,61 @@ import axios from 'axios'
             },
             getComments: function() {
                this.$router.push("ViewComment");
+            },
+            like: function() {
+               axios.request({
+                   url: "https://tweeterest.ml/api/tweet-likes",
+                   method: "POST",
+                   headers: {
+                    "Content-Type": "application/json",
+                    "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
+                   },
+                   data: {
+                       loginToken: this.token,
+                       tweetId: this.tweet.tweetId
+                   }
+               }).then((response) => {
+                   console.log(response.data);
+                   this.$store.dispatch("getLike");
+               }).catch((error) => {
+                   console.log(error)
+               })
+            },
+            unlike: function() {
+                axios.request({
+                   url: "https://tweeterest.ml/api/tweet-likes",
+                   method: "DELETE",
+                   headers: {
+                    "Content-Type": "application/json",
+                    "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
+                   },
+                   data: {
+                       loginToken: this.token,
+                       tweetId: this.tweet.tweetId
+                   }
+                }).then((response) => {
+                   console.log(response);
+                }).catch((error) => {
+                   console.log(error)
+                })
             }
-        },
+            
+        },  
         computed: {
             commentNum() {
                 return this.$store.state.commentList.length; 
+            },
+            ifLike() {
+                return this.$store.state.Iflike
+            },
+            likeNum() {
+                return this.$store.state.likeList.length;
             }
         },
         mounted () {
             this.$store.dispatch("getComments");
         },
-    }
-       
+    }  
 </script>
 
 <style lang="scss" scoped>
