@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="all-comments">
         <comment class="comments" v-for="comment in commentList" :key="comment.commentId" :comment="comment">
         </comment>
     </div>
@@ -12,15 +12,17 @@ import Comment from "./AComment.vue"
         name: "all-comments",
         components: {
             Comment
-        },
-        computed: {
-            commentList: function() {
-                return this.$store.state.commentList;
-            }
-        },
+        }
     }
 </script>
 
 <style lang="scss" scoped>
-
+#all-comments {
+    width: 100%;
+    min-height: 30vh;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    row-gap: 1vh; 
+}
 </style>

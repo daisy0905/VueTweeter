@@ -11,7 +11,7 @@
         <div id="container-3">
             <div></div>
             <div class="unit">
-                <h5 @click="getComments">{{ commentNum }}</h5>
+                <h5 @click="viewComments">{{ commentNum }}</h5>
                 <img @click="createComment" src="https://www.kindpng.com/picc/m/153-1537658_twitter-comment-icon-png-clipart-png-download-topic.png" alt="tweeter comment icon">
             </div>
             <div class="unit">
@@ -25,6 +25,10 @@
             <button class="tweet-btn" @click="goToTweet">Update Tweet</button>
             <button class="tweet-btn" @click="deleteTweet">Delete Tweet</button>
         </div>
+        <div id="container-5" v-if="display == true">
+            <comment class="comments" v-for="comment in commentList" :key="comment.commentId" :comment="comment">
+            </comment>
+        </div>
         
     </div>
 </template>
@@ -32,9 +36,13 @@
 <script>
 import cookies from 'vue-cookies'
 import axios from 'axios'
+import Comment from "./AComment.vue"
 
     export default {
         name: "a-tweet",
+        components: {
+            Comment
+        },
         props: {
             tweet: {
                 type: Object,
@@ -44,6 +52,9 @@ import axios from 'axios'
         data() {
             return {
                 token: cookies.get("loginToken"),
+                commentList: [],
+                commentNum: "",
+                display: false
             }
         },
         methods: {
@@ -85,7 +96,27 @@ import axios from 'axios'
                 this.$router.push("Comment")
             },
             getComments: function() {
-               this.$router.push("ViewComment");
+                axios.request({
+                url: "https://tweeterest.ml/api/comments",
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
+                },
+                params: {
+                    tweetId: this.tweet.tweetId
+                }
+                }).then((response) => {
+                    console.log(response.data);
+                    this.commentNum = response.data.length;
+                    this.commentList = response.data;
+                    console.log(this.commentList);
+                }).catch((error) => {
+                    console.log(error)
+                })
+            }, 
+            viewComments: function() {
+                this.display = true;
             },
             like: function() {
                axios.request({
@@ -127,9 +158,6 @@ import axios from 'axios'
             
         },  
         computed: {
-            commentNum() {
-                return this.$store.state.commentList.length; 
-            },
             ifLike() {
                 return this.$store.state.Iflike
             },
@@ -138,7 +166,7 @@ import axios from 'axios'
             }
         },
         mounted () {
-            this.$store.dispatch("getComments");
+            this.getComments();
         },
     }  
 </script>
@@ -168,7 +196,7 @@ import axios from 'axios'
     align-items: center; 
     background-color:  #E1E8ED;
     border-bottom: 1px solid #1DA1F2;
-    margin-top: 1em;
+    margin-top: 0.5em;
 
     h3 {
         font-weight: bold; 
@@ -248,6 +276,14 @@ import axios from 'axios'
         border-bottom: 1px solid #657786;
         background-color: white;
 }
+}
+
+#container-5 {
+    width: 100%;
+    height: 5vh;
+    display: grid;
+    justify-items: center;
+    align-items: center; 
 }
 
 </style>
