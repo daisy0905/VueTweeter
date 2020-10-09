@@ -59,9 +59,8 @@ export default new Vuex.Store({
     followerList: [],
     // following: "true",
     userList: [],
-    // commentList: [],
-    likeList: [],
-    Iflike: false
+    // likeList: [],
+    // Iflike: false
 
   },
   mutations: {
@@ -83,13 +82,6 @@ export default new Vuex.Store({
     },
     viewUser: function(state, data) {
       state.userList = data;
-    },
-    // updateComment: function(state, data) {
-    //   state.commentList = data;
-    // },
-    updateLike: function(state, data) {
-      state.likeList = data;
-      console.log(state.likeList);
     },
 
     // modifyTweet: function(state, tweetId, content) {
@@ -204,48 +196,7 @@ export default new Vuex.Store({
       }).catch((error) => {
         console.log(error)
       })
-    },
-    // getComments: function(state) {
-    //   axios.request({
-    //     url: "https://tweeterest.ml/api/comments",
-    //     method: "GET",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
-    //     },
-    //     params: {
-    //       tweetId: cookies.get("tweetTweetId"),
-    //     }
-    //   }).then((response) => {
-    //     state.commit("updateComment", response.data),
-    //     console.log(response.data)
-    //   }).catch((error) => {
-    //     console.log(error)
-    //   })
-    // },
-    getLike: function(state) {
-      axios.request({
-        url: "https://tweeterest.ml/api/tweet-likes",
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
-        },
-        params: {
-          tweetId: cookies.get("tweetTweetId"),
-        }
-      }).then((response) => {
-        state.commit("updateLike", response.data),
-        console.log(response.data)
-        for(let i=0; i<response.data.length; i++) {
-          if(response.data[i].username == cookies.get("tweetUsername")) {
-              state.Iflike = true;
-          }
-        }
-      }).catch((error) => {
-        console.log(error)
-      })
-    },
+    }
 
   },
   modules: {},

@@ -110,10 +110,7 @@ import AllUsers from '../components/AllUsers.vue'
                 this.$store.dispatch("getAllTweets");
                 this.$store.dispatch("getFollowing");
             }
-        },
-        mounted () {
-            this.$store.dispatch("getLike");
-        },
+        } 
     }
 </script>
 

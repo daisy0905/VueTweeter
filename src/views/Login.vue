@@ -51,7 +51,7 @@ import cookies from 'vue-cookies'
                         cookies.set("loginToken", response.data.loginToken);
                         cookies.set("userId", response.data.userId);
                         // cookies.set("userEmail", response.data.email);
-                        // cookies.set("userName", response.data.username);
+                        cookies.set("userName", response.data.username);
                         // cookies.set("userBio", response.data.bio);
                         // cookies.set("userBirthdate", response.data.birthdate);
                         cookies.set("userPassword", this.password);

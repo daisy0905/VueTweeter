@@ -33,6 +33,9 @@
                     <div></div>
                 </div>
             </div>
+            <div id="container-6">
+                <button class="tweet-btn" @click="viewTweets">Tweets</button>
+            </div>
         </div>
         <other-tweets class="tweets" v-for="tweet in othertweets" :key="tweet.tweetId" :tweet="tweet"></other-tweets>
     </div>
@@ -40,7 +43,7 @@
 
 <script>
 import cookies from 'vue-cookies'
-import OtherTweets from '../components/OtherUserTweets.vue'
+import OtherTweets from '../components/ATweet.vue'
 import axios from 'axios'
 
     export default {
@@ -57,6 +60,10 @@ import axios from 'axios'
             }
         },
         methods: {
+            viewTweets: function() {
+                this.getOtherUserProfile();
+                this.getOtherUserTweets();
+            },
             getOtherUserProfile: function() {
                 this.Status = "Loading"
                 axios.request({
@@ -301,6 +308,26 @@ import axios from 'axios'
             font-size: 0.8rem;
             color: #1DA1F2;
         }
+    }
+}
+
+#container-6 {
+    height: 5vh;
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+
+    .tweet-btn {
+        width: 30vw;
+        height: 5vh;
+        color: #1DA1F2;
+        font-family: Arial, Helvetica, sans-serif;
+        border: none;
+        background-color: white;
+        font-size: 0.8rem;
+        border-bottom: 1px solid #1DA1F2;
+        font-weight: bold;
     }
 }
 

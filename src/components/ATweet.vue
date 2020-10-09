@@ -1,7 +1,7 @@
 <template>
     <div id="tweet-unit">
         <div id="container-1">
-            <h3 @click="goToOtherUser">{{ tweet.username }}</h3>
+            <h3>{{ tweet.username }}</h3>
             <h4>{{ tweet.createdAt }}</h4>
             <div></div>
         </div>
@@ -22,8 +22,8 @@
             <div></div>
         </div>
         <div id="container-4">
-            <button class="tweet-btn" @click="goToTweet">Update Tweet</button>
-            <button class="tweet-btn" @click="deleteTweet">Delete Tweet</button>
+            <button v-if="tweet.username == logUser" class="tweet-btn" @click="goToTweet">Update Tweet</button>
+            <button v-if="tweet.username == logUser" class="tweet-btn" @click="deleteTweet">Delete Tweet</button>
         </div>
         <div id="container-5" v-if="display == true">
             <comment class="comments" v-for="comment in commentList" :key="comment.commentId" :comment="comment">
@@ -54,7 +54,9 @@ import Comment from "./AComment.vue"
                 token: cookies.get("loginToken"),
                 commentList: [],
                 commentNum: "",
-                display: false
+                display: false,
+                ifLike: false,
+                likeNum: ""
             }
         },
         methods: {
@@ -84,10 +86,6 @@ import Comment from "./AComment.vue"
 
                 }) 
             },
-            goToOtherUser: function() {
-                cookies.set("otherUserId", this.tweet.userId),
-                this.$router.push("OtherProfile")
-            },
             createComment: function() {
                 cookies.set("tweetUsername", this.tweet.username);
                 cookies.set("tweetTime", this.tweet.createdAt);
@@ -116,7 +114,32 @@ import Comment from "./AComment.vue"
                 })
             }, 
             viewComments: function() {
-                this.display = true;
+                this.display =! this.display;
+            },
+            getLike: function() {
+                axios.request({
+                url: "https://tweeterest.ml/api/tweet-likes",
+                method: "GET",
+                headers: {
+                "Content-Type": "application/json",
+                "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
+                },
+                params: {
+                tweetId: this.tweet.tweetId,
+                }
+                }).then((response) => {
+                    console.log(response.data);
+                    this.likeNum = response.data.length;
+                    for(let i=0; i<response.data.length; i++) {
+                    if(response.data[i].username == cookies.get("userName")) {
+                    this.ifLike = true;
+                    return
+                    }
+                    this.ifLike = false;
+                }
+                }).catch((error) => {
+                console.log(error)
+                })
             },
             like: function() {
                axios.request({
@@ -132,7 +155,8 @@ import Comment from "./AComment.vue"
                    }
                }).then((response) => {
                    console.log(response.data);
-                   this.$store.dispatch("getLike");
+                   this.ifLike = true;
+                   this.likeNum++;
                }).catch((error) => {
                    console.log(error)
                })
@@ -150,23 +174,21 @@ import Comment from "./AComment.vue"
                        tweetId: this.tweet.tweetId
                    }
                 }).then((response) => {
-                   console.log(response);
+                    console.log(response);
+                    this.ifLike = false;
+                    this.likeNum--;
                 }).catch((error) => {
                    console.log(error)
                 })
-            }
-            
+            }  
         },  
-        computed: {
-            ifLike() {
-                return this.$store.state.Iflike
-            },
-            likeNum() {
-                return this.$store.state.likeList.length;
-            }
-        },
         mounted () {
             this.getComments();
+        },
+        computed: {
+            logUser() {
+                return cookies.get('userName') 
+            }
         },
     }  
 </script>

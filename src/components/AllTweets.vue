@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Tweet from "./Tweet.vue"
+import Tweet from "./ATweet.vue"
 
     export default {
         name: "all-tweets",

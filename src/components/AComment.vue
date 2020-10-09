@@ -8,8 +8,8 @@
             <p>{{ comment.content }}</p>
         </div>
         <div id="container-3">
-            <button class="comment-btn" @click="goToComment">Update Comment</button>
-            <button class="comment-btn" @click="deleteComment">Delete Comment</button>
+            <button v-if="comment.username == logUser" class="comment-btn" @click="goToComment">Update Comment</button>
+            <button v-if="comment.username == logUser" class="comment-btn" @click="deleteComment">Delete Comment</button>
         </div>
     </div>
 </template>
@@ -33,7 +33,6 @@ import axios from 'axios'
                 this.$router.push("Comment")
             },
             deleteComment: function() {
-                this.Status = "Loading"
                 axios.request({
                    url: "https://tweeterest.ml/api/comments",
                    method: "DELETE",
@@ -47,14 +46,18 @@ import axios from 'axios'
                    }
                 }).then((response) => {
                     console.log(response);
-                    this.status = "Success";
                 }).catch((error) => {
                     console.log(error);
                     this.status = "Error";
 
                 }) 
             },
-        }
+        },
+        computed: {
+            logUser() {
+                return cookies.get('userName') 
+            }
+        },
         
     }
 </script>
@@ -76,6 +79,7 @@ import axios from 'axios'
     background-color: #1DA1F2;
     z-index: 30;
     padding-bottom: 1em;
+    box-shadow: 3px 3px 2px #AAB8C2;
 }
 
 #container-1 {
@@ -100,7 +104,7 @@ import axios from 'axios'
 
 #container-2 {
     width: 100%;
-    min-height: 5vh;
+    height: 5vh;
     display: grid;
     justify-items: center;
     align-items: center; 
