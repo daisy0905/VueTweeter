@@ -94,7 +94,7 @@ import AllUsers from '../components/AllUsers.vue'
                    url: "https://tweeterest.ml/api/users",
                    method: "DELETE",
                    headers: {
-                    // "Content-Type": "application/json",
+                    "Content-Type": "application/json",
                     "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
                    },
                    data: {

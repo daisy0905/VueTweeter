@@ -9,6 +9,7 @@
         <div id="container-2">
             <img :src="UserPhoto" id="userPhoto" alt="user image"> 
             <textarea id="tweet-text" v-model="content"></textarea>
+            <h3>{{ tweetStatus }}</h3>
             <button @click="updateTweet">Update Tweet</button>
         </div>
         <div id="space"></div>
@@ -25,7 +26,8 @@ import axios from 'axios'
                 UserPhoto: cookies.get("userPicture"),
                 token: cookies.get("loginToken"),
                 content: "",
-                tweet: {}
+                tweet: {},
+                tweetStatus: "Tweets!"
             }
         },
         methods: {
@@ -33,7 +35,8 @@ import axios from 'axios'
                 this.$router.push("Home");
             },
             createTweet: function() {
-               axios.request({
+                this.tweetStatus = "Tweeting!"
+                axios.request({
                    url: "https://tweeterest.ml/api/tweets",
                    method: "POST",
                    headers: {
@@ -44,14 +47,16 @@ import axios from 'axios'
                        loginToken: this.token,
                        content: this.content
                    }
-               }).then((response) => {
+                }).then((response) => {
                    console.log(response);
+                   this.tweetStatus = "Tweeted!";
                    this.tweet = response.data;
                    console.log(this.tweet);
                    cookies.set("idUser", response.data.userId)
-               }).catch((error) => {
-                   console.log(error)
-               })
+                }).catch((error) => {
+                   console.log(error);
+                   this.tweetStatus = "Failed to tweet!";
+                })
            },
            updateTweet: function() {
                 axios.request({
@@ -152,6 +157,13 @@ import axios from 'axios'
         text-align: center;
     }
 
+    h3 {
+        font-weight: bold; 
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1rem;
+        margin-bottom: 1em;
+    }
+
     button {
         width: 30vw;
         height: 5vh;
@@ -161,6 +173,7 @@ import axios from 'axios'
         border: 1px solid #1DA1F2;
         border-radius: 1.5em;
         font-weight: bold;
+        color: #1DA1F2;
     }
 }
 
