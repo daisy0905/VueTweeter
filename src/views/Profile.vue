@@ -41,6 +41,9 @@
             </div>
         </div>
         <user-tweets id="tweets"></user-tweets>
+        <div id="tweet-icon">
+            <img @click="createTweet" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQAXoPQzntYQAVY308mROLyPuRp1smbeMQ30g&usqp=CAU" alt="icon of write tweet">
+        </div>
     </div>
 </template>
 
@@ -75,7 +78,10 @@ import UserTweets from '../components/UserTweets'
             getFollower: function() {
                 this.$store.dispatch("getFollower");
                 this.$router.push("Follow");
-            }
+            },
+            createTweet: function() {
+                this.$router.push("Tweet");
+            },
         },
         computed: {
             name: function() {
@@ -300,5 +306,20 @@ import UserTweets from '../components/UserTweets'
     align-items: center;
 }
 
+#tweet-icon {
+        height: 10vh;
+        width: 100%;
+        display: grid;
+        align-items: center;
+        justify-items: center;
+
+        img {
+            position: fixed;
+            bottom: 20vh;
+            right: 2vw;
+            width: 15%;
+            z-index: 10;
+        }
+    }
 
 </style>

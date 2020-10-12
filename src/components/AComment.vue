@@ -6,6 +6,11 @@
         </div>
         <div id="container-2">
             <p>{{ comment.content }}</p>
+            <div class="unit">
+                <span id="like-active">{{ commentLikeNum }}</span>
+                <img src="../assets/tweeter-like-icon.png" alt="comment like icon" v-if="ifLike" @click="unlike">
+                <img src="../assets/tweeter-unlike-icon.png" alt="comment unlike icon" v-else @click="like">
+            </div>
         </div>
         <div id="container-3">
             <button v-if="comment.username == logUser" class="comment-btn" @click="goToComment">Update Comment</button>
@@ -24,6 +29,13 @@ import axios from 'axios'
             comment: {
                 type: Object,
                 required: true
+            }
+        },
+        data() {
+            return {
+                token: cookies.get("loginToken"),
+                ifLike: false,
+                commentLikeNum: ""
             }
         },
         methods: {
@@ -52,6 +64,74 @@ import axios from 'axios'
 
                 }) 
             },
+            getCommentLike: function() {
+                axios.request({
+                url: "https://tweeterest.ml/api/comment-likes",
+                method: "GET",
+                headers: {
+                "Content-Type": "application/json",
+                "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
+                },
+                params: {
+                    commentId: this.comment.commentId
+                }
+                }).then((response) => {
+                    console.log(response.data);
+                    this.commentLikeNum = response.data.length;
+                    for(let i=0; i<response.data.length; i++) {
+                    if(response.data[i].username == cookies.get("userName")) {
+                    this.ifLike = true;
+                    return
+                    }
+                    this.ifLike = false;
+                }
+                }).catch((error) => {
+                console.log(error)
+                })
+            },
+            like: function() {
+               axios.request({
+                   url: "https://tweeterest.ml/api/comment-likes",
+                   method: "POST",
+                   headers: {
+                    "Content-Type": "application/json",
+                    "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
+                   },
+                   data: {
+                       loginToken: this.token,
+                       commentId: this.comment.commentId
+                   }
+               }).then((response) => {
+                   console.log(response.data);
+                   this.ifLike = true;
+                   this.commentLikeNum++;
+               }).catch((error) => {
+                   console.log(error)
+               })
+            },
+            unlike: function() {
+                axios.request({
+                   url: "https://tweeterest.ml/api/comment-likes",
+                   method: "DELETE",
+                   headers: {
+                    "Content-Type": "application/json",
+                    "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
+                   },
+                   data: {
+                       loginToken: this.token,
+                       commentId: this.comment.commentId
+                   }
+                }).then((response) => {
+                    console.log(response);
+                    this.ifLike = false;
+                    this.commentLikeNum--;
+                }).catch((error) => {
+                   console.log(error)
+                })
+            }  
+        },
+        mounted () {
+            this.getCommentLike();
         },
         computed: {
             logUser() {
@@ -107,16 +187,35 @@ import axios from 'axios'
     height: 5vh;
     display: grid;
     justify-items: center;
-    align-items: center; 
-    margin-top: 0.5em;
+    align-items: center;
+    grid-template-columns: 80% 20%; 
+    margin: 0.5em 0.5em 0 0;
     
-
     p {
     width: 90%;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 0.8rem;
     text-align: center;
     }
+
+    .unit {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        justify-items: center;
+        align-items: center;
+        grid-template-columns: 1fr 1fr;
+
+        #like-active {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 0.8rem;
+        }
+        
+        img {
+            width: 20px;
+        }
+    }
+
 }
 
 #container-3 {

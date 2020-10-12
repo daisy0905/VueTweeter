@@ -20,20 +20,6 @@
                 <h5>Birthdate: {{ birthdate }}</h5>
             </div>
             <div id="container-5">
-                <div class="user-follow">
-                    <div></div>
-                    <h5>{{ followingNum }}</h5>
-                    <h4 @click="getFollowing">Following</h4>
-                    <div></div>
-                </div>
-                <div class="user-follow">
-                    <div></div>
-                    <h5>{{ followerNum }}</h5>
-                    <h4 @click="getFollower">Follower</h4>
-                    <div></div>
-                </div>
-            </div>
-            <div id="container-6">
                 <button class="tweet-btn" @click="viewTweets">Tweets</button>
             </div>
         </div>
@@ -109,14 +95,6 @@ import axios from 'axios'
                     console.log(error);
                     this.status = "Error";
                 }) 
-            },
-            getFollowing: function() {
-                this.$store.dispatch("getFollowing");
-                this.$router.push("Follow");
-            },
-            getFollower: function() {
-                this.$store.dispatch("getFollower");
-                this.$router.push("Follow");
             },
             goToHome: function() {
                 this.$router.push("Home")
@@ -283,40 +261,7 @@ import axios from 'axios'
     display: grid;
     justify-items: center;
     align-items: center;
-    grid-template-columns: 1fr 1fr;
     margin-top: 2em;
-
-
-    .user-follow {
-        height: 5vh;
-        width: 100%;
-        display: grid;
-        justify-items: center;
-        align-items: center;
-        grid-template-columns: 1fr 1.5fr 1.5fr 1fr;
-
-        h5 {
-            font-weight: bold; 
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 0.8rem;
-            color: #AAB8C2;
-        }
-
-        h4 {
-            font-weight: bold; 
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 0.8rem;
-            color: #1DA1F2;
-        }
-    }
-}
-
-#container-6 {
-    height: 5vh;
-    width: 100%;
-    display: grid;
-    justify-items: center;
-    align-items: center;
 
     .tweet-btn {
         width: 30vw;

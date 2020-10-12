@@ -10,22 +10,22 @@
         </div>
         <div id="container-3">
             <div></div>
-            <div class="unit">
+            <div id="unit-1">
                 <h5 @click="viewComments">{{ commentNum }}</h5>
                 <img @click="createComment" src="https://www.kindpng.com/picc/m/153-1537658_twitter-comment-icon-png-clipart-png-download-topic.png" alt="tweeter comment icon">
             </div>
-            <div class="unit">
+            <div id="unit-2">
                 <span id="like-active">{{ likeNum }}</span>
                 <img src="https://www.pngitem.com/pimgs/m/77-770619_leave-a-reply-cancel-reply-twitter-like-icon.png" alt="tweeter like icon" v-if="ifLike" @click="unlike">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT-xxei2BZj50qLOyvtuvF7s3RmxqMPoT9wNg&usqp=CAU" alt="tweeter unlike icon" v-else @click="like">
             </div>
+            <div id="unit-3">
+                <img v-if="tweet.username == logUser" @click="goToTweet" src="https://cdn0.iconfinder.com/data/icons/set-app-incredibles/24/Edit-01-512.png" alt="tweeter update icon">
+                <img v-if="tweet.username == logUser" @click="deleteTweet" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcST1mtZCRWh6vOvjwovfizM2BvKFMTiCDawFw&usqp=CAU" alt="tweeter delete icon">
+            </div>
             <div></div>
         </div>
-        <div id="container-4">
-            <button v-if="tweet.username == logUser" class="tweet-btn" @click="goToTweet">Update Tweet</button>
-            <button v-if="tweet.username == logUser" class="tweet-btn" @click="deleteTweet">Delete Tweet</button>
-        </div>
-        <div id="container-5" v-if="display == true">
+        <div id="container-4" v-if="display == true">
             <comment class="comments" v-for="comment in commentList" :key="comment.commentId" :comment="comment">
             </comment>
         </div>
@@ -184,6 +184,7 @@ import Comment from "./AComment.vue"
         },  
         mounted () {
             this.getComments();
+            this.getLike();
         },
         computed: {
             logUser() {
@@ -256,10 +257,10 @@ import Comment from "./AComment.vue"
     justify-items: center;
     align-items: center; 
     margin-top: 1em;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 5% repeat(4, 1fr) 5%;
     
 
-    .unit {
+    #unit-1 {
         height: 100%;
         width: 100%;
         display: grid;
@@ -277,30 +278,48 @@ import Comment from "./AComment.vue"
             font-size: 0.8rem;
             color: #AAB8C2;
         }
-    }    
-}
+    }
+    
+    #unit-2 {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        justify-items: center;
+        align-items: center;
+        grid-template-columns: 1fr 1.5fr;
 
-#container-4 {
+        #like-active {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 0.8rem;
+            color: #AAB8C2;
+            font-weight: bold;
+        }
+        
+        img {
+            width: 20px;
+        }
+    }
+
+    #unit-3 {
     width: 100%;
     height: 5vh;
     display: grid;
     justify-items: center;
-    align-items: center; 
-    grid-template-columns: 50% 50%;
-    column-gap: 1vw;
+    align-items: center;
+    grid-template-columns: 1fr 1fr; 
 
-    .tweet-btn {
-        width: 25vw;
-        height: 3vh;
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 0.8rem;
-        border: none;
-        border-bottom: 1px solid #657786;
-        background-color: white;
-}
+        img {
+            width: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 0.8rem;
+            border: none;
+            border-bottom: 1px solid #657786;
+            background-color: white;
+        }
+    }   
 }
 
-#container-5 {
+#container-4 {
     width: 100%;
     height: 5vh;
     display: grid;

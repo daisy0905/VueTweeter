@@ -21,7 +21,7 @@
                 <textarea id="comment-area" v-model="content"></textarea>
             </div>
         </div>
-        <div>
+        <div id="comment-btn">
             <button @click="createComment">Reply</button>
             <button @click="updateComment">Update</button>
         </div>
@@ -205,15 +205,25 @@ import axios from 'axios'
     }
 }
 
-button {
-    width: 25vw;
-    height: 5vh;
-    background-color: #1DA1F2;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 0.8rem;
-    border: none;
-    border-radius: 1.5em;
-    font-weight: bold;
+#comment-btn {
+    min-height: 10vh;
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    grid-template-columns: 1fr 1fr;
+
+    button {
+        width: 25vw;
+        height: 5vh;
+        background-color: #1DA1F2;
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 0.8rem;
+        border: none;
+        border-radius: 1.5em;
+        font-weight: bold;
+    }
 }
+
 </style>

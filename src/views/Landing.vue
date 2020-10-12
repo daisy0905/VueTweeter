@@ -21,7 +21,10 @@
                 <h2>Join the conversation</h2>
             </div>
         </div>
-        <div id="content-3"></div>
+        <div id="content-3">
+            <p>About<span></span>Help Center<span></span>Cookie Policy<span></span>Tweeter for Business</p>
+            <p>@2020 Tweeter</p>
+        </div>
     </div>
 </template>
 
@@ -143,7 +146,17 @@
 }
 
 #content-3 {
+    width: 90%;
     min-height: 10vh;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+
+    p {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 0.8rem;
+        text-align: center;
+    }
 }
    
 </style>
