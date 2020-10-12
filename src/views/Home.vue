@@ -75,6 +75,17 @@ import AllUsers from '../components/AllUsers.vue'
             userLogout: function() {
                 cookies.remove("loginToken");
                 cookies.remove("userId");
+                cookies.remove("tweetContent");
+                cookies.remove("tweetTweetId");
+                cookies.remove("userCommentId");
+                cookies.remove("userName");
+                cookies.remove("otherId");
+                cookies.remove("tweetUsername");
+                cookies.remove("tweetTime");
+                cookies.remove("userPicture");
+                cookies.remove("userPassword");
+                cookies.remove("userContent");
+                cookies.remove("userTweetId");
                 this.$router.push("Login");
             },
             deleteProfile: function() {
