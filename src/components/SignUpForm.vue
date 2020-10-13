@@ -50,7 +50,7 @@ import cookies from 'vue-cookies'
                    //write logic to ensure token was sent
                    cookies.set("loginToken", response.data.loginToken);
                    // send to home page
-                   this.$router.push("/home");
+                   this.$router.push("/");
                }).catch((error) => {
                    console.log(error)
                })

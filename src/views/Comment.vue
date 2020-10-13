@@ -1,5 +1,12 @@
 <template>
     <div id="comment">
+        <div id="nav">
+            <img @click="goToHome" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSvz8HF_jjIpaNgkrFzcw9E2N9Y6SA13DfCcQ&usqp=CAU" alt="icon of back to home page">
+            <h4>Go to Home</h4>
+            <div></div>
+            <h4>Go to Profile</h4>
+            <img id="arrow-right" @click="goToProfile" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSvz8HF_jjIpaNgkrFzcw9E2N9Y6SA13DfCcQ&usqp=CAU" alt="icon of back to home page">
+        </div>
         <div id="tweet">
             <div id="image">
                 <img :src="UserPhoto" id="userPhoto" alt="user image">
@@ -25,6 +32,7 @@
             <button @click="createComment">Reply</button>
             <button @click="updateComment">Update</button>
         </div>
+        <h3>{{ commentStatus }}</h3>
     </div>
 </template>
 
@@ -43,10 +51,17 @@ import axios from 'axios'
                 date: cookies.get("tweetTime"),
                 content: "",
                 comment: {},
+                commentStatus: "Comment!"
             }
         },
 
         methods: {
+            goToHome: function() {
+                this.$router.push("Home");
+            },
+            goToProfile: function() {
+                this.$router.push("Profile");
+            },
             createComment: function() {
                axios.request({
                    url: "https://tweeterest.ml/api/comments",
@@ -62,11 +77,12 @@ import axios from 'axios'
                    }
                }).then((response) => {
                    console.log(response);
+                   this.commentStatus = "Commented!";
                    this.comment = response.data;
                    console.log(this.comment);
-                   this.$router.push("Profile")
                }).catch((error) => {
-                   console.log(error)
+                   console.log(error);
+                   this.commentStatus = "Failed to comment!";
                })
             },
             updateComment: function() {
@@ -84,11 +100,10 @@ import axios from 'axios'
                     }
                 }).then((response) => {
                     console.log(response);
-                    this.loginStatus = "Success";
-                    this.$router.push("Profile")
+                    this.commentStatus = "Updated!";
                 }).catch((error) => {
                     console.log(error);
-                    this.loginStatus = "Error";
+                    this.commentStatus = "Failed to update!";
                 })
             },
         },
@@ -110,6 +125,30 @@ import axios from 'axios'
     display: grid;
     justify-items: center;
     align-items: center; 
+}
+
+#nav {
+    height: 5vh;
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    grid-template-columns: 10% 30% 20% 30% 10%;
+
+    img {
+        width: 5vw;
+    }
+
+    h4 {
+        font-weight: bold; 
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 0.8rem;
+    }
+
+    #arrow-right {
+        transform: scaleX(-1);
+        width: 5vw;
+    }
 }
 
 #tweet {
@@ -225,5 +264,11 @@ import axios from 'axios'
         font-weight: bold;
     }
 }
+
+h3 { 
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1rem;
+        text-align: left;
+    }
 
 </style>

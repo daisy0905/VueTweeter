@@ -5,6 +5,7 @@
                 <img @click="backToHome" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSvz8HF_jjIpaNgkrFzcw9E2N9Y6SA13DfCcQ&usqp=CAU" alt="icon of back to home page">
                 <h3>{{ name }}</h3>
                 <div></div>
+                <button @click="refresh">Refresh</button>
             </div>
             <div id="container-2">
                 <img src="../assets/background-landing.png" alt="">
@@ -61,6 +62,10 @@ import UserTweets from '../components/UserTweets'
             }
         },
         methods: {
+            refresh: function() {
+                this.$store.dispatch("getProfile");
+                this.$store.dispatch("getTweets");
+            },
             viewProfile: function() {
                 this.$store.dispatch("getProfile");
                 this.$router.push("UserIntro");
@@ -103,7 +108,9 @@ import UserTweets from '../components/UserTweets'
         mounted () {
             this.$store.dispatch("getFollowing");
             this.$store.dispatch("getFollower");
-        },
+            this.$store.dispatch("getProfile");
+            this.$store.dispatch("getTweets");
+        }
     }
 </script>
 
@@ -137,7 +144,8 @@ import UserTweets from '../components/UserTweets'
     display: grid;
     justify-items: left;
     align-items: center;
-    grid-template-columns: 10% 15% 75%;
+    grid-template-columns: 10% 15% 45% 30%;
+    margin-bottom: 1em;
 
     img {
         width: 5vw;
@@ -147,6 +155,19 @@ import UserTweets from '../components/UserTweets'
         font-weight: bold; 
         font-family: Arial, Helvetica, sans-serif;
         font-size: 1rem;
+    }
+
+    
+    button {
+        width: 25vw;
+        height: 5vh;
+        background-color: white;
+        color: #1DA1F2;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 0.8rem;
+        border: 1px solid  #1DA1F2;
+        border-radius: 1.5em;
+        font-weight: bold;
     }
 }
 
