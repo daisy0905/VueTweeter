@@ -1,11 +1,9 @@
 <template>
     <div id="comment">
         <div id="nav">
-            <img @click="goToHome" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSvz8HF_jjIpaNgkrFzcw9E2N9Y6SA13DfCcQ&usqp=CAU" alt="icon of back to home page">
-            <h4>Go to Home</h4>
-            <div></div>
-            <h4>Go to Profile</h4>
-            <img id="arrow-right" @click="goToProfile" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSvz8HF_jjIpaNgkrFzcw9E2N9Y6SA13DfCcQ&usqp=CAU" alt="icon of back to home page">
+            <button @click="goToHome">Home</button>
+            <button @click="goToOtherProfile">Other Profile</button>
+            <button @click="goToProfile">Profile</button>
         </div>
         <div id="tweet">
             <div id="image">
@@ -58,6 +56,9 @@ import axios from 'axios'
         methods: {
             goToHome: function() {
                 this.$router.push("Home");
+            },
+            goToOtherProfile: function() {
+                this.$router.push("OtherProfile");
             },
             goToProfile: function() {
                 this.$router.push("Profile");
@@ -133,21 +134,18 @@ import axios from 'axios'
     display: grid;
     justify-items: center;
     align-items: center;
-    grid-template-columns: 10% 30% 20% 30% 10%;
+    grid-template-columns: 1fr 1fr 1fr;
 
-    img {
-        width: 5vw;
-    }
-
-    h4 {
-        font-weight: bold; 
+    button {
+        width: 25vw;
+        height: 5vh;
+        background-color: white;
+        color: #1DA1F2;
+        border: 1px solid #1DA1F2;
         font-family: Arial, Helvetica, sans-serif;
         font-size: 0.8rem;
-    }
-
-    #arrow-right {
-        transform: scaleX(-1);
-        width: 5vw;
+        border-radius: 1.5em;
+        font-weight: bold;
     }
 }
 
