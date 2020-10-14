@@ -50,12 +50,7 @@ import cookies from 'vue-cookies'
                         this.loginStatus = "Success";
                         cookies.set("loginToken", response.data.loginToken);
                         cookies.set("userId", response.data.userId);
-                        // cookies.set("userEmail", response.data.email);
                         cookies.set("userName", response.data.username);
-                        // cookies.set("userBio", response.data.bio);
-                        // cookies.set("userBirthdate", response.data.birthdate);
-                        cookies.set("userPassword", this.password);
-                        //send user to "home page"
                         this.$store.dispatch("getAllUsers");
                         this.$store.dispatch("getAllTweets");
                         this.$store.dispatch("getFollowing");

@@ -20,6 +20,9 @@
             <div id="delete-account">
                 <button @click="deleteProfile" id="delete-btn">Delete Account</button>
             </div>
+            <div id="delete-profile" v-if="display == true">
+                <delete-profile></delete-profile>
+            </div>
             <div id="tweet-icon">
                 <img @click="createTweet" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQAXoPQzntYQAVY308mROLyPuRp1smbeMQ30g&usqp=CAU" alt="icon of write tweet">
             </div>
@@ -34,21 +37,22 @@
 <script>
 
 import cookies from 'vue-cookies'
-import axios from 'axios'
 import AllTweets from '../components/AllTweets'
 import AllUsers from '../components/AllUsers.vue'
+import DeleteProfile from '../components/deleteProfile.vue'
 
     export default {
         components: {
             AllTweets,
-            AllUsers
+            AllUsers,
+            DeleteProfile
         },
         data() {
             return {
                 login: true,
                 token: cookies.get("loginToken"),
-                password: cookies.get("userPassword"),
-                status: ""
+                status: "",
+                display: false
             }
         },
         
@@ -83,34 +87,12 @@ import AllUsers from '../components/AllUsers.vue'
                 cookies.remove("tweetUsername");
                 cookies.remove("tweetTime");
                 cookies.remove("userPicture");
-                cookies.remove("userPassword");
                 cookies.remove("userContent");
                 cookies.remove("userTweetId");
                 this.$router.push("Login");
             },
             deleteProfile: function() {
-                this.Status = "Loading"
-                axios.request({
-                   url: "https://tweeterest.ml/api/users",
-                   method: "DELETE",
-                   headers: {
-                    "Content-Type": "application/json",
-                    "X-Api-Key": "NvrMZ9Fj0jRrjYf2As0M7gpnhYC7k4ltci5mZkZGGeY2G"
-                   },
-                   data: {
-                       loginToken: this.token,
-                       password: this.password
-                   }
-                }).then((response) => {
-                    console.log(response);
-                    this.status = "Success";
-                    this.$router.push("/");
-                }).catch((error) => {
-                    //show user login failure
-                    console.log(error);
-                    this.status = "Error";
-
-                }) 
+                this.display =! this.display;
             },
             createTweet: function() {
                 this.$router.push("Tweet");
@@ -261,6 +243,15 @@ import AllUsers from '../components/AllUsers.vue'
         border-radius: 1.5em;
         font-weight: bold;
         margin-top: 2em;
+    }
+
+    #delete-profile {
+        width: 90%;
+        height: 15vh;
+        display: grid;
+        justify-items: center;
+        align-items: center;
+        margin-top: 1em; 
     }
 
     #tweet-icon {

@@ -16,7 +16,6 @@
 
 <script>
 import axios from 'axios'
-import cookies from 'vue-cookies'
 
     export default {
        name: "signup-form",
@@ -47,9 +46,6 @@ import cookies from 'vue-cookies'
                    }
                }).then((response) => {
                    console.log(response);
-                   //write logic to ensure token was sent
-                   cookies.set("loginToken", response.data.loginToken);
-                   // send to home page
                    this.$router.push("/");
                }).catch((error) => {
                    console.log(error)
